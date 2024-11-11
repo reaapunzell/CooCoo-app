@@ -1,4 +1,3 @@
-# authentication/models.py
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
@@ -32,6 +31,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30, blank=False, null=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+
+    # Define custom related_name fields to avoid conflicts
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name="custom_user_groups",
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name="custom_user_permissions",
+        blank=True
+    )
 
     objects = UserManager()
 
