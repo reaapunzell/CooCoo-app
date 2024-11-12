@@ -28,8 +28,9 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True, min_length=6)
 
     def validate(self, data):
-        user = authenticate(**data)
+        email = data.get('email')
+        password = data.get('password')
+        user = authenticate(email=email, password=password)  # authenticate using email and password
         if user and user.is_active:
-            return user
+            return data  # Return data, not the user object
         raise serializers.ValidationError("Incorrect credentials or inactive account.")
-

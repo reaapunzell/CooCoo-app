@@ -26,30 +26,30 @@ class SignupView(APIView):
             return Response({"message": "User registered successfully."}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class LoginView(APIView):
-    @swagger_auto_schema(request_body=UserLoginSerializer)  # Include request body in Swagger docs
+    @swagger_auto_schema(request_body=UserLoginSerializer)
     def post(self, request, *args, **kwargs):
         serializer = UserLoginSerializer(data=request.data)
-        
+
         if serializer.is_valid():
-            # Corrected way to get email and password from validated data
             email = serializer.validated_data['email']
             password = serializer.validated_data['password']
 
             # Authenticate the user using the provided credentials
-            user = authenticate(request, username=email, password=password)
+            user = authenticate(username=email, password=password)
 
             if user is not None and user.is_active:
-                # Generate JWT token
+                # Generate JWT tokens
                 tokens = get_tokens_for_user(user)
-                
+
                 return Response({
                     'message': 'Login successful.',
                     'access_token': tokens['access'],
                     'refresh_token': tokens['refresh']
                 }, status=status.HTTP_200_OK)
-            
+
             return Response({"error": "Invalid credentials or inactive account."}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
