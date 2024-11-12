@@ -22,6 +22,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
     path('auth/', include('authentication.urls')),  # Authentication-related URLs
-    path('groups/', include('groups.urls')),        # Group buying-related URLs
+    path('api/', include('groups.urls')),        # Group buying-related URLs
 ]
 
