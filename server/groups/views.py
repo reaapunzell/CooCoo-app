@@ -5,9 +5,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from .models import Group, Participant
 from .serializers import GroupSerializer, ParticipantSerializer
 from django.shortcuts import get_object_or_404
+
+# Define the JWT Authentication Header parameter
+token_param = openapi.Parameter(
+    'Authorization',  # Header name
+    openapi.IN_HEADER,
+    description="Bearer token for authentication",  # Description of the token
+    type=openapi.TYPE_STRING,
+    required=True,
+)
+
 
 class GroupListView(ListCreateAPIView):
     """
@@ -20,6 +31,7 @@ class GroupListView(ListCreateAPIView):
     @swagger_auto_schema(
         operation_description="Retrieve a list of groups or create a new group",
         responses={200: GroupSerializer},
+        manual_parameters=[token_param], #Add security for jwt
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -39,8 +51,9 @@ class GroupDetailView(RetrieveAPIView):
     lookup_field = 'id'
 
     @swagger_auto_schema(
-        operation_description="Retrieve detailed information about a specific group",
+        operation_description="Retrieve detailed information about a specific group", 
         responses={200: GroupSerializer},
+        manual_parameters=[token_param],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -55,6 +68,7 @@ class JoinGroupView(APIView):
     @swagger_auto_schema(
         operation_description="Join an existing group",
         responses={200: 'Joined group successfully', 400: 'Invalid data'},
+        manual_parameters=[token_param],
     )
     def post(self, request, group_id, *args, **kwargs):
         group = get_object_or_404(Group, id=group_id)
@@ -98,6 +112,7 @@ class GroupProgressView(APIView):
     @swagger_auto_schema(
         operation_description="Retrieve the current progress for a specific group toward the target goal",
         responses={200: 'Progress data includes target goal, current progress, and status'},
+        manual_parameters=[token_param],
     )
     def get(self, request, group_id, *args, **kwargs):
         group = get_object_or_404(Group, id=group_id)
@@ -121,6 +136,7 @@ class ParticipantListView(APIView):
     @swagger_auto_schema(
         operation_description="Retrieve the list of participants in a specific group",
         responses={200: ParticipantSerializer},
+        manual_parameters=[token_param], 
     )
     def get(self, request, group_id, *args, **kwargs):
         group = get_object_or_404(Group, id=group_id)
@@ -138,6 +154,7 @@ class CreateGroupView(APIView):
     @swagger_auto_schema(
         operation_description="Create a new group for a product",
         responses={201: GroupSerializer},
+        manual_parameters=[token_param], 
     )
     def post(self, request, *args, **kwargs):
         product_id = request.data.get('product_id')
