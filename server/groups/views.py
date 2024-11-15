@@ -1,26 +1,23 @@
-# groups/views.py
 from rest_framework.generics import RetrieveAPIView, ListCreateAPIView
-from rest_framework.views import APIView  # Correct import for APIView
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .models import Group, Participant
-from .serializers import GroupSerializer, ParticipantSerializer
 from django.shortcuts import get_object_or_404
+from .models import Group, Participant, Product, Province, City
+from .serializers import GroupSerializer, ParticipantSerializer, ProductSerializer
 
-# Define the JWT Authentication Header parameter
+# JWT Authentication Header
 token_param = openapi.Parameter(
-    'Authorization',  # Header name
-    openapi.IN_HEADER,
-    description="Bearer token for authentication",  # Description of the token
+    'Authorization', openapi.IN_HEADER,
+    description="Bearer token for authentication",
     type=openapi.TYPE_STRING,
-    required=True,
+    required=True
 )
 
-
-class GroupListView(ListCreateAPIView):
+class GroupListCreateView(ListCreateAPIView):
     """
     List all groups or create a new group.
     """
@@ -30,14 +27,22 @@ class GroupListView(ListCreateAPIView):
 
     @swagger_auto_schema(
         operation_description="Retrieve a list of groups or create a new group",
-        responses={200: GroupSerializer},
-        manual_parameters=[token_param], #Add security for jwt
+        responses={200: GroupSerializer(many=True)},
+        manual_parameters=[token_param]
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_description="Create a new group",
+        request_body=GroupSerializer,
+        responses={201: GroupSerializer},
+        manual_parameters=[token_param]
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
     def perform_create(self, serializer):
-        # Add logic here to ensure only authenticated users can create groups
         serializer.save(organizer=self.request.user)
 
 
@@ -51,9 +56,9 @@ class GroupDetailView(RetrieveAPIView):
     lookup_field = 'id'
 
     @swagger_auto_schema(
-        operation_description="Retrieve detailed information about a specific group", 
+        operation_description="Retrieve detailed information about a specific group",
         responses={200: GroupSerializer},
-        manual_parameters=[token_param],
+        manual_parameters=[token_param]
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -67,23 +72,28 @@ class JoinGroupView(APIView):
 
     @swagger_auto_schema(
         operation_description="Join an existing group",
-        responses={200: 'Joined group successfully', 400: 'Invalid data'},
-        manual_parameters=[token_param],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'quantity': openapi.Schema(type=openapi.TYPE_INTEGER, description="Quantity to join with"),
+                'amount_contributed': openapi.Schema(type=openapi.TYPE_NUMBER, description="Amount contributed")
+            },
+            required=['quantity', 'amount_contributed']
+        ),
+        responses={200: 'Successfully joined the group', 400: 'Invalid data'},
+        manual_parameters=[token_param]
     )
     def post(self, request, group_id, *args, **kwargs):
         group = get_object_or_404(Group, id=group_id)
         quantity = request.data.get('quantity')
         amount_contributed = request.data.get('amount_contributed')
 
-        # Ensure the user isn't joining the group again
         if Participant.objects.filter(group=group, user=request.user).exists():
             return Response({"detail": "You have already joined this group."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Ensure the quantity doesn't exceed the group target
         if group.current_progress + quantity > group.target_goal:
-            return Response({"detail": "The group goal would be exceeded with this quantity."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Group goal would be exceeded."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create a participant entry
         participant = Participant.objects.create(
             group=group,
             user=request.user,
@@ -91,11 +101,9 @@ class JoinGroupView(APIView):
             amount_contributed=amount_contributed
         )
 
-        # Update the group's current progress
         group.current_progress += quantity
         group.save()
 
-        # Update group status if target goal is reached
         if group.current_progress >= group.target_goal:
             group.status = 'completed'
             group.save()
@@ -105,14 +113,24 @@ class JoinGroupView(APIView):
 
 class GroupProgressView(APIView):
     """
-    Get current progress toward the target goal for a specific group.
+    Get the current progress for a specific group.
     """
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_description="Retrieve the current progress for a specific group toward the target goal",
-        responses={200: 'Progress data includes target goal, current progress, and status'},
-        manual_parameters=[token_param],
+        operation_description="Get the current progress of a group",
+        responses={200: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "group_id": openapi.Schema(type=openapi.TYPE_INTEGER),
+                "product_name": openapi.Schema(type=openapi.TYPE_STRING),
+                "target_goal": openapi.Schema(type=openapi.TYPE_INTEGER),
+                "current_progress": openapi.Schema(type=openapi.TYPE_INTEGER),
+                "status": openapi.Schema(type=openapi.TYPE_STRING),
+                "participants_count": openapi.Schema(type=openapi.TYPE_INTEGER),
+            }
+        )},
+        manual_parameters=[token_param]
     )
     def get(self, request, group_id, *args, **kwargs):
         group = get_object_or_404(Group, id=group_id)
@@ -129,14 +147,14 @@ class GroupProgressView(APIView):
 
 class ParticipantListView(APIView):
     """
-    Get the list of participants for a specific group.
+    Get participants for a specific group.
     """
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_description="Retrieve the list of participants in a specific group",
-        responses={200: ParticipantSerializer},
-        manual_parameters=[token_param], 
+        operation_description="Retrieve participants in a specific group",
+        responses={200: ParticipantSerializer(many=True)},
+        manual_parameters=[token_param]
     )
     def get(self, request, group_id, *args, **kwargs):
         group = get_object_or_404(Group, id=group_id)
@@ -145,36 +163,19 @@ class ParticipantListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class CreateGroupView(APIView):
+class ProductListView(ListCreateAPIView):
     """
-    Create a new group.
+    List or add products.
     """
     permission_classes = [IsAuthenticated]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
     @swagger_auto_schema(
-        operation_description="Create a new group for a product",
-        responses={201: GroupSerializer},
-        manual_parameters=[token_param], 
+        operation_description="List all products or add a new one",
+        responses={200: ProductSerializer(many=True)},
+        manual_parameters=[token_param]
     )
-    def post(self, request, *args, **kwargs):
-        product_id = request.data.get('product_id')
-        target_goal = request.data.get('target_goal')
-        end_date = request.data.get('end_date')
-
-        # Get the product object
-        product = get_object_or_404(Product, id=product_id)
-
-        # Create the group
-        group = Group.objects.create(
-            product=product,
-            organizer=request.user,
-            target_goal=target_goal,
-            current_progress=0,  # initially no progress
-            status='open',
-            end_date=end_date
-        )
-
-        # Return the created group details
-        serializer = GroupSerializer(group)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
