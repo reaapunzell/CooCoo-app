@@ -37,13 +37,13 @@ class Product(models.Model):
 
 # Group model
 class Group(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default="Untitled Group")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='groups')
     organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organized_groups')
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='groups')
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='groups', null=True)
     target_goal = models.PositiveIntegerField(help_text="Target quantity to reach the discounted price.")
     current_progress = models.PositiveIntegerField(default=0, help_text="Current quantity achieved by participants.")
-    price_per_person = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_person = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)
     end_date = models.DateTimeField()
     status = models.CharField(max_length=20, choices=[('open', 'Open'), ('closed', 'Closed'), ('completed', 'Completed')], default='open')
 

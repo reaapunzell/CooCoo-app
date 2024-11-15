@@ -1,4 +1,4 @@
-from rest_framework.generics import RetrieveAPIView, ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -43,6 +43,7 @@ class GroupListCreateView(ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
+        # Automatically assign the current user as the organizer
         serializer.save(organizer=self.request.user)
 
 
@@ -88,12 +89,15 @@ class JoinGroupView(APIView):
         quantity = request.data.get('quantity')
         amount_contributed = request.data.get('amount_contributed')
 
+        # Prevent multiple participations by the same user
         if Participant.objects.filter(group=group, user=request.user).exists():
             return Response({"detail": "You have already joined this group."}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Ensure the group goal is not exceeded
         if group.current_progress + quantity > group.target_goal:
             return Response({"detail": "Group goal would be exceeded."}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Create the participant and update group progress
         participant = Participant.objects.create(
             group=group,
             user=request.user,
@@ -104,6 +108,7 @@ class JoinGroupView(APIView):
         group.current_progress += quantity
         group.save()
 
+        # Check if group goal is reached and mark the group as completed
         if group.current_progress >= group.target_goal:
             group.status = 'completed'
             group.save()

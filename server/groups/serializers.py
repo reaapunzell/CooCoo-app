@@ -32,9 +32,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 # Group Serializer
 class GroupSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
-    organizer = serializers.StringRelatedField(read_only=True)
-    city = CitySerializer(read_only=True)
+    # Declare product as a nested serializer
+    product = ProductSerializer()
 
     class Meta:
         model = Group
@@ -43,6 +42,20 @@ class GroupSerializer(serializers.ModelSerializer):
             'target_goal', 'current_progress', 'price_per_person',
             'end_date', 'status'
         ]
+
+    def create(self, validated_data):
+        # Extract the product data from validated_data
+        product_data = validated_data.pop('product')
+
+        # Create the product if it doesn't exist
+        product, created = Product.objects.get_or_create(
+            name=product_data['name'],
+            defaults=product_data  # This ensures we create the product with the given data
+        )
+
+        # Create the group and link the product
+        group = Group.objects.create(product=product, **validated_data)
+        return group
 
 
 # Participant Serializer
