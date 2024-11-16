@@ -13,7 +13,7 @@ class ProvinceSerializer(serializers.ModelSerializer):
 
 # City Serializer
 class CitySerializer(serializers.ModelSerializer):
-    province = ProvinceSerializer(read_only=True)
+    province = serializers.CharField()  # Allow province name as a string
 
     class Meta:
         model = City
@@ -32,29 +32,37 @@ class ProductSerializer(serializers.ModelSerializer):
 
 # Group Serializer
 class GroupSerializer(serializers.ModelSerializer):
-    # Declare product as a nested serializer
+    # Use nested serializers for city and product
     product = ProductSerializer()
+    city = CitySerializer()
 
     class Meta:
         model = Group
         fields = [
-            'id', 'name', 'product', 'organizer', 'city',
-            'target_goal', 'current_progress', 'price_per_person',
-            'end_date', 'status'
+            'id', 'name', 'product', 'organizer', 'city', 'target_goal',
+            'current_progress', 'price_per_person', 'end_date', 'status'
         ]
 
     def create(self, validated_data):
-        # Extract the product data from validated_data
+        # Handle product data
         product_data = validated_data.pop('product')
-
-        # Create the product if it doesn't exist
-        product, created = Product.objects.get_or_create(
+        product, _ = Product.objects.get_or_create(
             name=product_data['name'],
-            defaults=product_data  # This ensures we create the product with the given data
+            defaults=product_data
         )
 
-        # Create the group and link the product
-        group = Group.objects.create(product=product, **validated_data)
+        # Handle city and province data
+        city_data = validated_data.pop('city')
+        province_name = city_data.pop('province')
+        
+        # Create or get the province
+        province, _ = Province.objects.get_or_create(name=province_name)
+
+        # Create or get the city
+        city, _ = City.objects.get_or_create(name=city_data['name'], province=province)
+
+        # Create the group and associate the product and city
+        group = Group.objects.create(product=product, city=city, **validated_data)
         return group
 
 

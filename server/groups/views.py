@@ -17,6 +17,7 @@ token_param = openapi.Parameter(
     required=True
 )
 
+
 class GroupListCreateView(ListCreateAPIView):
     """
     List all groups or create a new group.
@@ -77,7 +78,7 @@ class JoinGroupView(APIView):
             type=openapi.TYPE_OBJECT,
             properties={
                 'quantity': openapi.Schema(type=openapi.TYPE_INTEGER, description="Quantity to join with"),
-                'amount_contributed': openapi.Schema(type=openapi.TYPE_NUMBER, description="Amount contributed")
+                'amount_contributed': openapi.Schema(type=openapi.TYPE_NUMBER, description="Amount contributed"),
             },
             required=['quantity', 'amount_contributed']
         ),
@@ -88,6 +89,12 @@ class JoinGroupView(APIView):
         group = get_object_or_404(Group, id=group_id)
         quantity = request.data.get('quantity')
         amount_contributed = request.data.get('amount_contributed')
+
+        # Validation: Ensure quantity and amount_contributed are positive
+        if not quantity or quantity <= 0:
+            raise ValidationError({"quantity": "Quantity must be greater than 0."})
+        if not amount_contributed or amount_contributed <= 0:
+            raise ValidationError({"amount_contributed": "Amount contributed must be greater than 0."})
 
         # Prevent multiple participations by the same user
         if Participant.objects.filter(group=group, user=request.user).exists():
@@ -114,7 +121,6 @@ class JoinGroupView(APIView):
             group.save()
 
         return Response({"detail": "Successfully joined the group."}, status=status.HTTP_200_OK)
-
 
 class GroupProgressView(APIView):
     """
@@ -183,4 +189,13 @@ class ProductListView(ListCreateAPIView):
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_description="Add a new product",
+        request_body=ProductSerializer,
+        responses={201: ProductSerializer},
+        manual_parameters=[token_param]
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
