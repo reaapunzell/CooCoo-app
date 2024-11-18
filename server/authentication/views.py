@@ -9,6 +9,8 @@ from .serializers import UserSignupSerializer,UserLoginSerializer
 from .utils import generate_otp, send_otp_email
 from drf_yasg import openapi
 from .models import User
+from datetime import timedelta
+import random
 
 # Function to generate JWT tokens for the user
 def get_tokens_for_user(user):
@@ -38,54 +40,72 @@ class SignupView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VerifyEmailOTPView(APIView):
-    @swagger_auto_schema(
-        operation_description="Verify email using a 4-digit OTP sent to the user's email address.",
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'email': openapi.Schema(type=openapi.TYPE_STRING, format='email', description='User email address'),
-                'otp': openapi.Schema(type=openapi.TYPE_STRING, description='4-digit OTP sent to email'),
-            },
-            required=['email', 'otp']
-        ),
-        responses={
-            200: openapi.Response(
-                description="Email verified successfully.",
-                examples={
-                    "application/json": {"message": "Email verified successfully."}
-                }
-            ),
-            400: openapi.Response(
-                description="Bad request - Invalid or expired OTP.",
-                examples={
-                    "application/json": {"error": "Invalid or expired OTP."}
-                }
-            ),
-            404: openapi.Response(
-                description="User not found.",
-                examples={
-                    "application/json": {"error": "User not found."}
-                }
-            ),
-        }
-    )
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'email': openapi.Schema(type=openapi.TYPE_STRING, description='User email'),
+            'otp': openapi.Schema(type=openapi.TYPE_STRING, description='OTP received by email'),
+        },
+        required=['email', 'otp']
+    ))
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
         otp = request.data.get('otp')
-        
+
         if not email or not otp:
             return Response({"error": "Email and OTP are required."}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         try:
             user = User.objects.get(email=email)
-            if user.otp == otp and (now() - user.otp_created_at).seconds <= 300:
-                user.email_verified = True
-                user.otp = None  # Clear OTP after verification
-                user.save()
-                return Response({"message": "Email verified successfully."}, status=status.HTTP_200_OK)
-            return Response({"error": "Invalid or expired OTP."}, status=status.HTTP_400_BAD_REQUEST)
+            otp_validity_duration = timedelta(minutes=5)
+
+            if user.otp == otp:
+                if now() - user.otp_created_at <= otp_validity_duration:
+                    user.email_verified = True
+                    user.otp = None  # Clear OTP after successful verification
+                    user.save()
+                    return Response({"message": "Email verified successfully."}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"error": "OTP expired. Please request a new one."}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"error": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+class ResendOTPView(APIView):
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'email': openapi.Schema(type=openapi.TYPE_STRING, description='User email'),
+        },
+        required=['email']
+    ))
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+
+        if not email:
+            return Response({"error": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+            if user.email_verified:
+                return Response({"message": "Email is already verified."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Generate a new OTP and update the user record
+            new_otp = f"{random.randint(1000, 9999)}"
+            user.otp = new_otp
+            user.otp_created_at = now()
+            user.save()
+
+            # Send the OTP
+            send_otp_email(user.email, new_otp)
+
+            return Response({"message": "A new OTP has been sent to your email."}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
 
 class LoginView(APIView):
     @swagger_auto_schema(request_body=UserLoginSerializer)
