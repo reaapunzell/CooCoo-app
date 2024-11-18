@@ -1,0 +1,1 @@
+mail = getElementById("mail");
