@@ -27,6 +27,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, blank=False, null=False)
+    email_verified = models.BooleanField(default=False)
+    otp = models.CharField(max_length=4, blank=True, null=True)
+    otp_created_at = models.DateTimeField(blank=True, null=True)
     first_name = models.CharField(max_length=30, blank=False, null=False)
     last_name = models.CharField(max_length=30, blank=False, null=False)
     is_active = models.BooleanField(default=True)
