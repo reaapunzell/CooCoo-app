@@ -42,5 +42,31 @@ This is the backend for the Group Buying Platform, developed using Django and Dj
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/your-repo/group-buying-platform.git
-   cd group-buying-platform
+   cd server
+----
+
+### **Create a Virtual Environment
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+### ***Install Dependencies
+ ```bash
+pip install -r requirements.txt
+
+
+###***Run Migrations
+
+bash
+python manage.py makemigrations
+python manage.py migrate
+
+###***Start the Development Server
+python manage.py runserver
+
+###***Accessing the API Documentation
+
+The project uses Swagger for API documentation.
+You can access the documentation at the following endpoint:
+http://127.0.0.1:8000/swagger/
 
