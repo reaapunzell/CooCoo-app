@@ -21,7 +21,7 @@ const WeatherComponent = () => {
           );
 
           setWeatherData({
-            temperate: response.data.current.temp,
+            temperature: response.data.current.temp,
             humidity: response.data.current.humidity,
           });
         } catch (err) {
@@ -38,14 +38,33 @@ const WeatherComponent = () => {
     return <p>{error}</p>;
   }
 
-  if (!weatherData) {
+  /* if (!weatherData) {
     return <p>Loading...</p>;
   }
-
+*/ 
   return (
-    <div>
-      <p> Temperature: {weatherData.temperature} °C </p>
-      <p> Humidity: {weatherData.humidity}% </p>
+    <div className="weather-data" >
+        <div className='temperatures'>
+        <h2> Temperature </h2>
+        <div className="weather-card" >
+            <p>Today</p>
+            <div className="weather-card-data" >
+            <img> </img>
+      <p>{weatherData.temperature}16 °C </p>
+      </div>
+      </div>
+      </div>
+      <div className='temperatures'>
+        <h2> Humidity </h2>
+        <div className="weather-card" >
+            <p>Today</p>
+            <div className="weather-card-data" >
+            <img> </img>
+      <p>{weatherData.humidity}30 % </p>
+      </div>
+      </div>
+      </div>
+      
     </div>
   );
 };
