@@ -14,7 +14,7 @@ const WeatherComponent = () => {
 
         try {
           //fetch weather data
-          const WEATHER_API_KEY = process.env.WEATHER_API_KEY
+          const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
           const part= "minutely,hourly,daily,alert"
           const response = await axios.get(
             `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=${part}&appid=${WEATHER_API_KEY}&units=metric`
@@ -38,10 +38,10 @@ const WeatherComponent = () => {
     return <p>{error}</p>;
   }
 
-  /* if (!weatherData) {
+   if (!weatherData) {
     return <p>Loading...</p>;
   }
-*/ 
+
   return (
     <div className="weather-data" >
         <div className='temperatures'>

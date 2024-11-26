@@ -1,0 +1,41 @@
+
+
+/* Main container for the navigation bar */
+.navigation-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white; 
+    padding: 20px;
+    width: 200px; 
+    height: 100vh;  
+    border-right: 1px solid #ddd; 
+    margin-left:0px;
+}
+
+
+.navigation-bar img {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+
+.navigation-bar .nav-link {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.navigation-bar .nav-link.active,
+.navigation-bar .nav-link:hover {
+    background-color: #90BE6D;
+    color: black;
+    font-weight: bold;
+}
