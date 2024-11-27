@@ -1,8 +1,16 @@
 body {
-    background-color: beige;
+    background-color: black;
 
 }
 div {
     margin: 40 px;
     padding: 10 px;
+    color: rgb(235, 107, 3);
+}
+.logins {
+    background-image: url(images/coocoo.png);
+    background-repeat: repeat;
+    background-size: 100px;
+    margin: auto;
+    padding: 25%;
 }
