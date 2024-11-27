@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    font-size: 14px;
+    background-color:gray;
+  }
+
+  .onboarding-container{
+    width: 80vh;
+   background-color: white;
+   height: 80vh;
+
+  }
+
+  .circle{
+    width: 958px;
+    height: 888px;
+    background: rgba(144,190,109,1);
+    top: 354px;
+    left: 27px;
+    border-radius: 50%;
+  }

@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import "./Onboarding.css";
 
-const Onboarding = () => {
+const GroupBuyingOnboarding = () => {
 
     const handleSubmit = (e) =>{
         e.preventDefault();
@@ -11,14 +12,15 @@ const Onboarding = () => {
 
     return(
         <div className="onboarding-container" >
+            <div className="circle"></div>
             <h1>Welcome to Group Buying</h1>
             <p>a new way to make bulk purchasing easier, cheaper, and more efficient for farmers! </p>
             <p> This feature allows you to start or join group orders for essential supplies like feed, with real-time updates on cost reductions as more members participate.</p>
-        <button className ="onboarding-btn" type="button" onClick={handeSubmit}> Initiate New Group</button>
+        <button className ="onboarding-btn" type="button" onClick={handleSubmit}> Initiate New Group</button>
         <button> Join Group </button>
         </div>
     )
 }
 
 
-export default Onboarding
+export default GroupBuyingOnboarding

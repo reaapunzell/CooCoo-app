@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUp from "./pages/SignUp.jsx";
 import WeatherComponent from './components/Weather.jsx';
 import Navigation from './components/Navigation.jsx';
-
+import GroupBuyingOnboarding from './components/Group Buying/Onboarding.jsx';
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/weather" element={<WeatherComponent/>} />
         <Route path="/" element={<Navigation/>} />
+        <Route path="/groupbuying" element={<GroupBuyingOnboarding/>} />
       </Routes>
     </BrowserRouter>
   );
