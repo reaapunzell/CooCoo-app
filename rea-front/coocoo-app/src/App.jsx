@@ -4,6 +4,7 @@ import SignUp from "./pages/SignUp.jsx";
 import WeatherComponent from './components/Weather.jsx';
 import Navigation from './components/Navigation.jsx';
 import GroupBuyingOnboarding from './components/Group Buying/Onboarding.jsx';
+import ExistingGroups from './components/Group Buying/ExistingGroups.jsx';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/weather" element={<WeatherComponent/>} />
         <Route path="/" element={<Navigation/>} />
         <Route path="/groupbuying" element={<GroupBuyingOnboarding/>} />
+        <Route path="/existing-groups" element={<ExistingGroups/>} />
       </Routes>
     </BrowserRouter>
   );

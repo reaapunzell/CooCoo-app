@@ -49,7 +49,7 @@ const WeatherComponent = () => {
         <div className="weather-card" >
             <p>Today</p>
             <div className="weather-card-data" >
-            <img> </img>
+       
       <p>{weatherData.temperature}16 °C </p>
       </div>
       </div>
@@ -59,7 +59,7 @@ const WeatherComponent = () => {
         <div className="weather-card" >
             <p>Today</p>
             <div className="weather-card-data" >
-            <img> </img>
+          
       <p>{weatherData.humidity}30 % </p>
       </div>
       </div>

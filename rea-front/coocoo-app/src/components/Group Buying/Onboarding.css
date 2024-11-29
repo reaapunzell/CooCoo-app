@@ -3,21 +3,122 @@
   }
   body {
     font-size: 14px;
-    background-color:gray;
+    font-family: Arimo;
   }
 
-  .onboarding-container{
-    width: 80vh;
+  .app-container {
+    width: 100%;
+    height: 1442px;
+    background: rgba(244,244,244,1);
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    display:flex;
+    justify-content: space-evenly;
+  }
+  
+  .onboarding-container, .existing-groups-container{
+    width: 100vh;
    background-color: white;
    height: 80vh;
+   border-radius: 15px;
+   text-align: center;
+    margin-top: 50px;
+  }
+  
 
+
+  .welcome-banner h1{
+    color:rgba(144,190,109,1) ;
+    margin: 50px 0px 0px 20px;
+    font-family: Arimo;
+    font-weight: Bold;
+    font-size: 50px;
+    opacity: 1;
   }
 
-  .circle{
-    width: 958px;
-    height: 888px;
+  .welcome-banner p {
+    font-size: 24px;
+    margin: 50px 0 0;
+  }
+
+  .description {
+    color: rgba(0,0,0,1);
+    font-family: Arimo;
+    font-weight: Bold;
+    font-size: 32px;
+    opacity: 1;
+    text-align: justify;
+    margin: 20px 40px ;
+
+  }
+  .buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  button {
+    width: 223px;
+  height: 63px;
+  background: rgba(82,121,52,1);
+  opacity: 1;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+  overflow: hidden;
+  }
+
+  button:hover{
+    background: rgb(145, 212, 94);
+  }
+
+  
+  
+  .header{
+    width: 100vh;
+    height: 191px;
     background: rgba(144,190,109,1);
-    top: 354px;
-    left: 27px;
-    border-radius: 50%;
+    opacity: 1;
+    top: 2px;
+    left: 7px;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+    overflow: hidden;
+  }
+
+  .header span {
+    width: 608px;
+    color: rgba(255,255,255,1);
+    font-family: Arimo;
+    font-weight: Bold;
+    font-size: 40px;
+    opacity: 1;
+    text-align: center;
+  }
+
+  .group{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 20px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 8px;
+    border-width: 1px;
+    height: 120px;
+    margin: 20px 10px;
+  }
+
+  .group span {
+    width: 145px;
+    color: rgba(0,0,0,1);
+    font-family: Arimo;
+    font-weight: Bold;
+    opacity: 1;
+    text-align: left;
   }

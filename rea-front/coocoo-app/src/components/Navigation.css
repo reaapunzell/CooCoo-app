@@ -10,7 +10,8 @@
     width: 200px; 
     height: 100vh;  
     border-right: 1px solid #ddd; 
-    margin-left:0px;
+    
+    left:0px;
 }
 
 
@@ -21,7 +22,7 @@
 
 
 .navigation-bar .nav-link {
-    font-family: Arial, sans-serif;
+    font-family: Arimo, sans-serif;
     font-size: 16px;
     color: black;
     text-align: center;
