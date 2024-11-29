@@ -4,6 +4,13 @@ import "./Onboarding.css";
 import Navigation from "../Navigation";
 
 const ExistingGroups = () => {
+    const navigate = useNavigate();
+
+    const JoinGroup = (e) => {
+      e.preventDefault();
+      navigate("/joined-groups");
+    };
+
   return (
     <div className="app-container">
       <Navigation />
@@ -24,7 +31,7 @@ const ExistingGroups = () => {
             <span className="per-person">per person</span>
           </div>
         </div>
-        <button className="joingroup-btn">Join Group</button>
+        <button className="joingroup-btn" type="button" onClick={JoinGroup}>Join Group</button>
       </div>
     </div>
   );

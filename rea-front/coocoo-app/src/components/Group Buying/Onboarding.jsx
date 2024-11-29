@@ -11,7 +11,7 @@ const GroupBuyingOnboarding = () => {
     navigate("/initiatenewgroup");
   };
 
-  const joinExisitngGroup = (e) => {
+  const joinExisitingGroup = (e) => {
     e.preventDefault();
     navigate("/existing-groups");
   };
@@ -48,7 +48,7 @@ const GroupBuyingOnboarding = () => {
           <button
             className="join-btn"
             type="button"
-            onClick={joinExisitngGroup}
+            onClick={joinExisitingGroup}
           >
             {" "}
             Join Existing Group
