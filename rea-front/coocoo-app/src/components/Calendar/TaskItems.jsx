@@ -2,7 +2,6 @@ import React from 'react';
 import './Calendar.css';
 
 const TaskItem = ({ task, onComplete }) => {
-    console.log('Rendering TaskItem:', task);
     return (
     <div
       onClick={onComplete}

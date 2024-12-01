@@ -3,7 +3,7 @@ import TaskItem from './TaskItems';
 import './Calendar.css';
 
 const TaskList = ({tasks, onCompleteTask}) => {
-   console.log("tasklist tasks:", tasks);
+
     return (
        <div className="task-list">
         {tasks.map((task)=>(

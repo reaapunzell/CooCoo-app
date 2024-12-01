@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import DateSelector from "./DateSelector";
 import TaskList from "./TaskList";
 import './Calendar.css'
+import TaskForm from "./TaskForm";
+import AddTaskButton from "./AddTask";
 
 const Calendar = () => {
     const today = new Date().toISOString().split('T')[0];  
@@ -16,8 +18,8 @@ const Calendar = () => {
     ],
   });
 
-  console.log('Selected Date:', selectedDate); // Debugging line
-  console.log('Tasks for selected date:', tasks[selectedDate] || "no tasks for this date"); // Debugging line
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
 
   const handleTaskCompletion = (date, taskId) => {
     setTasks((prevTasks) => ({
@@ -28,6 +30,17 @@ const Calendar = () => {
     }));
   };
 
+  const handleAddTask = (newTask) => {
+    setTasks(prevTasks => ({
+        ...prevTasks,
+        [selectedDate]: [...(prevTasks[selectedDate] || []), newTask],
+    }));
+};
+
+  const handleToggleForm = () => {
+    setIsFormVisible(!isFormVisible);
+};
+
   return (
     <div className="calendar">
       <h1>Today's Schedule</h1>
@@ -36,6 +49,13 @@ const Calendar = () => {
         tasks={tasks[selectedDate] || []} // Ensure tasks fallback to an empty array if none found
         onCompleteTask={(taskId) => handleTaskCompletion(selectedDate, taskId)}
       />
+      <AddTaskButton onAddTask={handleToggleForm}/>
+      {isFormVisible && (
+        <TaskForm
+        onAddTask={handleAddTask}
+        closeForm={handleToggleForm}
+        />
+      )}
     </div>
   );
 };
