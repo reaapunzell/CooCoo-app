@@ -25,7 +25,7 @@ const WeatherComponent = () => {
 
           // Set previous date
           const currentDate = new Date();
-          currentDate.setDate(currentDate.getDate() - 1); 
+          currentDate.setDate(currentDate.getDate() - 1);
           const previousDate = currentDate.toISOString().split("T")[0];
           console.log("Previous date:", previousDate);
 
@@ -65,6 +65,8 @@ const WeatherComponent = () => {
     return <p>Loading...</p>;
   }
 
+
+
   return (
     <div className="weather-data">
       <div className="temperatures">
@@ -80,34 +82,46 @@ const WeatherComponent = () => {
               <p>{weatherData.temperatureToday} °C</p>
             </div>
           </div>
-        
-        <div className="weather-card">
-          <p>Yesterday</p>
-          <div className="weather-card-data">
-            <img
-              src="/icon-park-outline_thermometer.svg"
-              alt="thermometer icon"
-            />
-            <p>{weatherData.temperatureYesterday} °C</p>
+
+          <div className="weather-card">
+            <p>Yesterday</p>
+            <div className="weather-card-data">
+              <img
+                src="/icon-park-outline_thermometer.svg"
+                alt="thermometer icon"
+              />
+              <p>{weatherData.temperatureYesterday} °C</p>
+            </div>
           </div>
         </div>
-      </div>
       </div>
       <div className="temperatures">
-        <h2>Humidity</h2>
-        <div className="weather-card">
-          <p>Today</p>
-          <div className="weather-card-data">
-            <p>{weatherData.humidityToday}%</p>
+        <h2>Humidity in {weatherData.location}</h2>
+        <div className="weather-cards-container">
+          <div className="weather-card">
+            <p>Today</p>
+            <div className="weather-card-data">
+              <img
+                src="/humidity icon.svg"
+                alt="humidty icon"
+              />
+              <p>{weatherData.humidityToday} % </p>
+            </div>
           </div>
-        </div>
-        <div className="weather-card">
-          <p>Yesterday</p>
-          <div className="weather-card-data">
-            <p>{weatherData.humidityYesterday}%</p>
+
+          <div className="weather-card">
+            <p>Yesterday</p>
+            <div className="weather-card-data">
+              <img
+                src="/humidity icon.svg"
+                alt="humidty icon"
+              />
+              <p>{weatherData.humidityYesterday} °C</p>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 };
