@@ -5,7 +5,8 @@
 }
 
 body {
-	background-size: cover;
+	background-image: url(../images/goodico.jpeg);
+	background-size: auto;
 	color: #fff;
 }
 
@@ -13,8 +14,10 @@ body {
 	position: absolute;
 	top: 50%;
 	left: 50%;
+	background-color: burlywood;
 	transform: translate(-50%, -50%);
 	width: 350px;
+	border: green;
 }
 
 .registration-form h1 {
@@ -50,5 +53,5 @@ body {
 }
 
 .registration-form button:hover {
-	color: re d;
+	color: red;
 }
