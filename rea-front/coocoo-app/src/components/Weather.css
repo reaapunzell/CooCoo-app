@@ -1,3 +1,6 @@
+.weather-data{
+    display:flex;
+}
 .weather-cards-container{
     display:flex;
 
@@ -29,3 +32,10 @@
     font-size: 20px;
 }
 
+.more-info-icon{
+    height: 3vh;
+}
+
+.heading{
+    display:flex;
+}

@@ -70,7 +70,10 @@ const WeatherComponent = () => {
   return (
     <div className="weather-data">
       <div className="temperatures">
+        <div className="heading">
         <h2>Temperature in {weatherData.location}</h2>
+        <img className="more-info-icon" src="/more info icon.svg" alt="more info icon"/>
+        </div>
         <div className="weather-cards-container">
           <div className="weather-card">
             <p>Today</p>
