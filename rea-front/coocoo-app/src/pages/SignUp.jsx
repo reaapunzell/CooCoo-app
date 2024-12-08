@@ -12,48 +12,33 @@ const Signup = () => {
     town: ''
   });
 
-  const [provinces, setProvinces] = useState([
-    'Eastern Cape', 'Free State', 'Gauteng', 'KwaZulu-Natal', 'Limpopo', 'Mpumalanga', 'North West', 'Northern Cape', 'Western Cape'
-  ]);
-  
-  const [towns, setTowns] = useState({
-    'Eastern Cape': ['Port Elizabeth', 'East London'],
-    'Gauteng': ['Johannesburg', 'Pretoria'],
-    'KwaZulu-Natal': ['Durban', 'Pietermaritzburg'],
-    // Add other provinces with towns
-  });
+const [responseMessage, setResponseMessage] = useState('')
   
   const [availableTowns, setAvailableTowns] = useState([]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
 
-    if (name === 'province') {
-      // When province is selected, update the towns dropdown based on province
-      setAvailableTowns(towns[value] || []);
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Basic validation
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
-    //  add more validation 
-    console.log('Form submitted', formData);
-  };
+    try{
+      const response = await axios.post("http://127.0.0.1:8000/signup/", {
+        email: formData.email,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        password: formData.password
+      });
+      setResponseMessage("Signup successful");
+    } catch (error) {
+      setResponseMessage('Signup failed: ' + error.response.data.detail);
+        }
+    };
 
   return (
     <div className="signup-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
-
         {/* First Name */}
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
