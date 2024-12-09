@@ -4,7 +4,6 @@ import {useHistory} from "react-router-dom";
 const swal = require('sweetalert2')
 
 const AuthContext = createContext();
-
 export default AuthContext
 
 export const AuthProvider = ({ children }) => {
