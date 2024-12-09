@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/SignUp.css"
+import provinces from "../components/data/Provinces.jsx"
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +37,8 @@ const [responseMessage, setResponseMessage] = useState('')
     };
 
   return (
-    <div className="signup-container">
+    <div className="signup-container"> 
+      <img src="/CooCoo Main logo.svg"/>
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         {/* First Name */}

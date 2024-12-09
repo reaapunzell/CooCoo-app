@@ -1,26 +1,31 @@
 body, html{
   margin: 0;
   padding: 0;
-  height: 100%;
   display: flex; 
   justify-content: center; 
   align-items: center; 
   font-family: Arial, sans-serif;
 }
-.signup-container {
-    width: 500px;
+.signup-container, .login-container {
+    width: 70vh;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border-style: none;
   }
   
   h2 {
     text-align: center;
   }
+
+  img{
+    height: 200px;
+  }
+
+
   
   .form-group {
     margin-bottom: 15px;
+    border-color: gray;
   }
   
   label {
