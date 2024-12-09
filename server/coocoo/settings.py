@@ -103,6 +103,14 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'coocooapp66@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'nudz wleq odhd jjzq'  # The App Password you generated
+
+
 
 #DATABASES = {
     #'default': {
