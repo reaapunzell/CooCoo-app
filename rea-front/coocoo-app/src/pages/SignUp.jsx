@@ -24,7 +24,7 @@ const [responseMessage, setResponseMessage] = useState('')
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const response = await axios.post("http://127.0.0.1:8000/signup/", {
+      const response = await axios.post("http://127.0.0.1:8000/auth/signup/", {
         email: formData.email,
         first_name: formData.firstName,
         last_name: formData.lastName,
