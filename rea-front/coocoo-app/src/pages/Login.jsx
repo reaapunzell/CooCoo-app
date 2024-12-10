@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/SignUp.css"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear any previous errors
+
+
 
     try {
       const response = await axios.post("/api/login/", { email, password });
@@ -26,6 +30,12 @@ const Login = () => {
     }
   };
 
+      //navigate to signup page
+      const signUpNav = () => {
+        e.preventDefault();
+        navigate("/signup")
+      };
+      
   return (
     <div className="login-container">
         <img src="/CooCoo Main logo.svg"/>
@@ -53,6 +63,11 @@ const Login = () => {
 
         <button type="submit">Login</button>
       </form>
+
+      <div className="signup-footer">
+        <span> Don't have an account? </span>
+        <button className="signup-btn" type='button' onClick={signUpNav} > Sign Up</button>
+      </div>
     </div>
   );
 };
