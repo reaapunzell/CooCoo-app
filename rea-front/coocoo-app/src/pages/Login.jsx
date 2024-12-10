@@ -8,27 +8,20 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [token, setToken] = useState("")
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(""); // Clear any previous errors
-
-
-
-    try {
-      const response = await axios.post("/api/login/", { email, password });
-      if (response.status === 200) {
-        // Redirect or perform further actions on successful login
-        alert("Login successful!");
-        window.location.href = "/dashboard"; // Change '/dashboard' to your target route
-      }
-    } catch (err) {
-      // Handle errors
-      setError(
-        err.response?.data?.error || "An error occurred. Please try again."
-      );
-    }
-  };
+  const handleLogin = () => {
+    fetch ("http:http://127.0.0.1:8000/auth/login/", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => setToken(data.token))
+    .then((err) => console.warn(err))
+  }
 
       //navigate to signup page
       const signUpNav = () => {
@@ -61,7 +54,7 @@ const Login = () => {
           required
         />
 
-        <button type="submit">Login</button>
+        <button  className="login-btn" type='button' onClick={handleLogin}>Login</button>
       </form>
 
       <div className="signup-footer">
