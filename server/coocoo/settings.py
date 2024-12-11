@@ -108,8 +108,12 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'coocooapp66@gmail.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'nudz wleq odhd jjzq'  # The App Password you generated
+EMAIL_HOST_PASSWORD = 'rcnl uvup edkh rmag'  # The App Password you generated
 
+#smtp_server = "smtp.gmail.com"
+#smtp_port = 587
+#username = "coocooapp66@gmail.com"
+#password = "rcnl uvup edkh rmag"
 
 
 #DATABASES = {
