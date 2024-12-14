@@ -1,0 +1,196 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    font-size: 14px;
+    font-family: Arimo;
+  }
+
+  :root {
+    --primary-color: #90BE6D;
+    --text-color: #555555;
+    
+}
+
+  .app-container {
+    width: 100%;
+    height: 1442px;
+    background: rgba(244,244,244,1);
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    display:flex;
+    justify-content: space-evenly;
+  }
+  
+  .onboarding-container, .existing-groups-container{
+  width: 100vh;
+   background-color: white;
+   min-height: 80vh;
+   border-radius: 15px;
+   text-align: center;
+    margin-top: 50px;
+   
+  }
+  
+
+
+  .welcome-banner h1{
+    color:rgba(144,190,109,1) ;
+    margin: 50px 0px 0px 20px;
+    font-family: Arimo;
+    font-weight: Bold;
+    font-size: 50px;
+    opacity: 1;
+  }
+
+  .welcome-banner p {
+    font-size: 24px;
+    margin: 50px 0 0;
+  }
+
+  .description {
+    color: rgba(0,0,0,1);
+    font-family: Arimo;
+    font-weight: Bold;
+    font-size: 32px;
+    opacity: 1;
+    text-align: justify;
+    margin: 20px 40px ;
+
+  }
+  .buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  button {
+    width: 223px;
+  height: 63px;
+  background: rgba(82,121,52,1);
+  opacity: 1;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+  overflow: hidden;
+  }
+
+  button:hover{
+    background: rgb(145, 212, 94);
+  }
+
+  
+  
+  .header{
+    width: 100vh;
+    height: 191px;
+    background: rgba(144,190,109,1);
+    opacity: 1;
+    top: 2px;
+    left: 7px;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+    overflow: hidden;
+  }
+
+  .header span {
+    width: 608px;
+    color: rgba(255,255,255,1);
+    font-family: Arimo;
+    font-weight: Bold;
+    font-size: 40px;
+    opacity: 1;
+    text-align: center;
+  }
+
+  .user-address{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 50px;
+  }
+
+  .group{
+    font-size: 20px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 8px;
+    border-width: 1px;
+    min-height: 120px;
+    margin: 20px 10px;
+  }
+
+.group-information{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.select-btn{
+ margin-bottom:5vh;
+}
+.progress, .product, .price {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+  .group span {
+    width: 145px;
+    color: rgba(0,0,0,1);
+    font-family: Arimo;
+    font-weight: Bold;
+    opacity: 1;
+    text-align: left;
+  }
+
+  input[type='radio'] {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    top: 30px;
+    left: 10px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+    accent-color:var(--primary-color)
+    
+}
+
+.group-alert-container{
+  height:100px;
+  width: 600px;
+  background-color: white;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--primary-color);
+  margin: 20px;
+  display: flex;
+  align-items: center;
+
+}
+
+.group-alert-participants{
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  font-size: 26px;
+  color:white;
+  padding: 10px;
+  margin: 5px;
+}
+
+.alert-notification{
+  font-size: 22px;
+  text-align: justify;
+  margin-left: 10px;
+}

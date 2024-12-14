@@ -1,0 +1,41 @@
+.weather-data{
+    display:flex;
+}
+.weather-cards-container{
+    display:flex;
+
+}
+.weather-card{
+    background-color: white;
+    border-style: solid;
+    border-radius: 8px;
+    width:180px;
+    margin-left: 20px;
+}
+
+.weather-card p {
+    font-size: 18px;
+    text-align: center;
+}
+.weather-card-data{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.weather-card-data img {
+    height: 50px;
+}
+
+.weather-card-data p {
+    font-size: 20px;
+}
+
+.more-info-icon{
+    height: 3vh;
+}
+
+.heading{
+    display:flex;
+}

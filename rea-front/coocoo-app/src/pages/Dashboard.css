@@ -1,0 +1,19 @@
+*{
+    width: 100%;
+}
+
+.grid-container{
+    display:grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.weather-component {
+    grid-column: 1/3;
+    grid-row: 1;
+}
+
+.calendar-component {
+    grid-column: 2/3;
+    grid-row: 2/4;
+}

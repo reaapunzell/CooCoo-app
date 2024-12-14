@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    font-size: 14px;
+    font-family: Arimo;
+  }
+
+  :root {
+    --primary-color: #90BE6D;
+    --text-color: #555555;
+    
+}
+.account-info {
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   
+    font-size: large;
+  }
+  
+  .account-info h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .form-row {
+    margin-bottom: 15px;
+    display:flex;
+  }
+  
+  .form-row label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-row input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .input-box{
+    text-align: left;
+    margin-right: 40px;
+  }
+
+ .settings-navbar{
+  display: flex;
+  justify-content: space-between;
+ }
