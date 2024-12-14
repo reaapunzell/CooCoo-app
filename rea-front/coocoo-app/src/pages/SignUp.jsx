@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/SignUp.css"
 import provinces from "../components/data/Provinces.jsx"
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: '',
     surname: '',
@@ -35,6 +38,12 @@ const [responseMessage, setResponseMessage] = useState('')
       setResponseMessage('Signup failed: ' + error.response.data.detail);
         }
     };
+
+    
+      //navigate to login page
+      const loginNav = () => {
+        navigate("/")
+      };
 
   return (
     <div className="signup-container"> 
@@ -147,6 +156,10 @@ const [responseMessage, setResponseMessage] = useState('')
         {/* Submit Button */}
         <button type="submit">Sign Up</button>
       </form>
+      <div className="signup-footer">
+        <span> Already have an account? </span>
+        <button className="signup-btn" type='button' onClick={loginNav}> Log In</button>
+      </div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const Login = () => {
   const [token, setToken] = useState("")
 
   const handleLogin = () => {
-    fetch ("http:http://127.0.0.1:8000/auth/login/", {
+    fetch ("http://127.0.0.1:8000/auth/login/", {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: {
@@ -25,7 +25,6 @@ const Login = () => {
 
       //navigate to signup page
       const signUpNav = () => {
-        e.preventDefault();
         navigate("/signup")
       };
       
@@ -33,7 +32,7 @@ const Login = () => {
     <div className="login-container">
         <img src="/CooCoo Main logo.svg"/>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         {error && <div className="error-message">{error}</div>}
 
         <label htmlFor="email">Email</label>
@@ -59,7 +58,7 @@ const Login = () => {
 
       <div className="signup-footer">
         <span> Don't have an account? </span>
-        <button className="signup-btn" type='button' onClick={signUpNav} > Sign Up</button>
+        <button className="signup-btn" type='button' onClick={signUpNav}> Sign Up</button>
       </div>
     </div>
   );

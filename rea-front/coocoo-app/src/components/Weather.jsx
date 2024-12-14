@@ -119,7 +119,7 @@ const WeatherComponent = () => {
                 src="/humidity icon.svg"
                 alt="humidty icon"
               />
-              <p>{weatherData.humidityYesterday} °C</p>
+              <p>{weatherData.humidityYesterday} %</p>
             </div>
           </div>
         </div>
