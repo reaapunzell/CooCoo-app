@@ -1,8 +1,5 @@
 import react from 'react';
 
-
-
-    
     const provinces = [
         "Eastern Cape",
         "Free State",

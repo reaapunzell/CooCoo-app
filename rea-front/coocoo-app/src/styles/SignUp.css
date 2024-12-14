@@ -54,3 +54,24 @@ body, html{
     background-color: white;
     color: gray;
   }
+
+  .response-message {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .response-message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .response-message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+  

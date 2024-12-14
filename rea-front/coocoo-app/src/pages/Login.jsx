@@ -13,7 +13,7 @@ const Login = () => {
   const handleLogin = () => {
     fetch ("http://127.0.0.1:8000/auth/login/", {
       method: "POST",
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
       headers: {
         "Content-type": "application/json",
       },
