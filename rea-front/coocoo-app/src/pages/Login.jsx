@@ -4,7 +4,7 @@ import "../styles/SignUp.css"
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Login = () => {
   const handleLogin = () => {
     fetch ("http://127.0.0.1:8000/auth/login/", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
       headers: {
         "Content-type": "application/json",
       },
@@ -21,6 +21,8 @@ const Login = () => {
     .then((res) => res.json())
     .then((data) => setToken(data.token))
     .then((err) => console.warn(err))
+
+    
   }
 
       //navigate to signup page
@@ -35,12 +37,12 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         {error && <div className="error-message">{error}</div>}
 
-        <label htmlFor="email">Email</label>
+        <label htmlFor="username">Username</label>
         <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="string"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
 
