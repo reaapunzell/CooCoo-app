@@ -9,9 +9,9 @@ function NavScrollExample() {
         <Nav defaultActiveKey="/settings/account" className="">
         <Nav.Link href="/settings/account">Dashboard</Nav.Link>
             <Nav.Link href="/settings/changepassword">Group Buying</Nav.Link>
-            <Nav.Link href="/settings/notifications">Settings</Nav.Link>
-            <Nav.Link href="/settings/personalisation">Settings</Nav.Link>
-            <Nav.Link href="/settings/securityandprivacy">Settings</Nav.Link>
+            <Nav.Link href="/settings/notifications">Notifications</Nav.Link>
+            <Nav.Link href="/settings/personalisation">Personlisation</Nav.Link>
+            <Nav.Link href="/settings/securityandprivacy">Security and Privacy</Nav.Link>
         </Nav>
     </div>
   );
