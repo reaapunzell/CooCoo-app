@@ -9,6 +9,10 @@ import Calendar from './components/Calendar/Calendar.jsx';
 import JoinedGroups from './components/Group Buying/JoinedGroup.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Login from './pages/Login.jsx';
+import GroupAlert from './components/Group Buying/GroupAlert.jsx';
+import Settings from './pages/Settings.jsx'; 
+import VerifiedEmail from './pages/VerfiedEmai.jsx'; 
+
 
 function App() {
   return (
@@ -22,6 +26,9 @@ function App() {
         <Route path="/existing-groups" element={<ExistingGroups/>} />
         <Route path="/calendar" element={<Calendar/>} />
         <Route path="/joined-groups" element={<JoinedGroups/>} />
+        <Route path="/group-alert" element={<GroupAlert/>} />
+        <Route path="/settings" element={<Settings/>} /> 
+        <Route path="/verify-email" element={<VerifiedEmail/>} />
       </Routes>
     </BrowserRouter>
   );
