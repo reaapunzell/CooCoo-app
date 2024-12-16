@@ -45,7 +45,7 @@ const WeatherComponent = () => {
             humidityYesterday:
               responsePreviousDay.data.humidity?.afternoon || "N/A",
           });
-        } catch (err) {
+        } catch (error) {
           console.error("Error fetching weather data:", err);
           setError("Failed to fetch weather data");
         }

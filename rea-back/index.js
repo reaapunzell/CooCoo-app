@@ -16,8 +16,9 @@ app.use(cors());
 
 
 import router from "./controllers/users.js"
-// import groupsRouter from "./controllerst
+import dashboardRouter from './controllers/dashboard.js'
 app.use('/auth', router)
+app.use('/dashboard', dashboardRouter)
 //app.use("/transactions", transactionsRouter)
 
 app.get('/', (req,res) => {

@@ -21,7 +21,7 @@ function App() {
         <Route path='/' element={<Login/>}/>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/weather" element={<WeatherComponent/>} />
-        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/dashboard/:username" element={<Dashboard/>} />
         <Route path="/groupbuying" element={<GroupBuyingOnboarding/>} />
         <Route path="/existing-groups" element={<ExistingGroups/>} />
         <Route path="/calendar" element={<Calendar/>} />
