@@ -39,4 +39,5 @@ const User = new mongoose.Schema({
   createdBy: mongoose.Schema.ObjectId
 })
 
+
 export default mongoose.model("user", User)
