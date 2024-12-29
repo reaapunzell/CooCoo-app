@@ -58,6 +58,8 @@ const AccountForm = () => {
           </div>
         </div>
       </form>
+
+      <button> Update Account Information</button>
     </section>
   );
 };

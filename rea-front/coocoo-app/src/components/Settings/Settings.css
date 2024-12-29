@@ -11,12 +11,11 @@
     --text-color: #555555;
     
 }
-.account-info {
-    background-color: #fff;
+.account-info, .settings-section {
     padding: 50px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-   
+    background-color: white;
     font-size: large;
   }
   
@@ -53,6 +52,25 @@
   }
 
  .settings-navbar{
-  display: flex;
-  justify-content: space-between;
+font-size: 30px;
+display: flex;
+justify-content: space-evenly;
+margin-left: 20px;
+
+ }
+
+ .settings-navbar .nav-link{
+  font-family: Arimo, sans-serif;
+  font-size: 22px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  padding: 20px 100px;
+  margin: 10px 0;
+  
+ }
+
+ .settings-navbar .nav-link.active,
+ .settings-navbar .nav-link:hover {
+  color: var(--primary-color);
  }

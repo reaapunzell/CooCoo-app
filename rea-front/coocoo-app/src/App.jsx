@@ -27,7 +27,7 @@ function App() {
         <Route path="/calendar" element={<Calendar/>} />
         <Route path="/joined-groups" element={<JoinedGroups/>} />
         <Route path="/group-alert" element={<GroupAlert/>} />
-        <Route path="/settings" element={<Settings/>} /> 
+         <Route path="/settings/*" element={<Settings />} />
         <Route path="/verify-email" element={<VerifiedEmail/>} />
       </Routes>
     </BrowserRouter>
