@@ -2,6 +2,9 @@ import React from "react";
 import "./Settings.css"
 
 const AccountForm = () => {
+
+  console.log("loading account form");
+  
   return (
     <section className="account-info">
       <h2>Account Information</h2>

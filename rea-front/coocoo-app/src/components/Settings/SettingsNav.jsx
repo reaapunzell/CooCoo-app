@@ -7,7 +7,7 @@ function SettingsNav() {
   return (
     <div className="settings-navbar">
         <Nav>
-        <Nav.Link href="/settings/account">Account</Nav.Link>
+        <Nav.Link href="/settings">Account</Nav.Link>
             <Nav.Link href="/settings/changepassword">Change Password</Nav.Link>
             <Nav.Link href="/settings/notifications">Notifications</Nav.Link>
             <Nav.Link href="/settings/personalisation">Personlisation</Nav.Link>
