@@ -1,7 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Settings.css";
 
 const ChangePassword = () => {
+  const [message, setMessage] = useState("");
+
+  const updatePassword = (e) => {
+    e.preventDefault();
+    setMessage("Password updated successfully");
+  }
+
   return (
     <section className="settings-section">
       <h2>Change Password</h2>
@@ -25,7 +32,8 @@ const ChangePassword = () => {
           </div>
         </div>
       </form>
-      <button>Update Password</button>
+      <button className="update-pass-btn" type="button" onClick={updatePassword} >Update Password</button>
+    {message && <p className="success-msg">{message}</p>  }
     </section>
   );
 };
