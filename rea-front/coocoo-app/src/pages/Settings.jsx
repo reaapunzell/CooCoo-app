@@ -17,11 +17,12 @@ const Settings = () => {
         <SettingsNav />
         <div className="settings-content">
           <Routes>
-            <Route path="/settings" element={<AccountForm />} />
-            <Route path="/settings/changepassword" element={<ChangePassword />} />
-            <Route path="/settings/notifications" element={<Notifications />} />
-            <Route path="/settings/personalisation" element={<Personalization />} />
-            <Route path="/settings/securityandprivacy" element={<SecurityAndPrivacy />} />
+            <Route path="/" element={<AccountForm />} />
+            <Route path="changepassword" element={<ChangePassword />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="personalisation" element={<Personalization />} />
+            <Route path="securityandprivacy" element={<SecurityAndPrivacy />} />
+            <Route path="*" element={<h2>Page Not Found</h2>} />
           </Routes>
         </div>
       </div>
