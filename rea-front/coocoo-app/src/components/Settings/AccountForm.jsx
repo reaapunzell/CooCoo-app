@@ -2,13 +2,12 @@ import React from "react";
 import "./Settings.css"
 
 const AccountForm = () => {
+
+  
   return (
     <section className="account-info">
       <h2>Account Information</h2>
       <div className="form-container">
-        <div className="profile-picture">
-          <img src="" alt="profile-picture" />
-        </div>
       </div>
       <form>
         
@@ -58,6 +57,8 @@ const AccountForm = () => {
           </div>
         </div>
       </form>
+
+      <button> Update Account Information</button>
     </section>
   );
 };
