@@ -4,6 +4,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 import User from "../model/User.js"
+import tokenValidation from '../middlewares/tokenValidation.js'
 
 const SALT = Number(process.env.SALT)
 const JWT_KEY = process.env.JWT_KEY
@@ -62,6 +63,28 @@ router.post("/login", async (req, res) => {
     } catch (err) {
         console.error("Error during login:", err);
         return res.status(500).send({ message: "Internal server error" });
+    }
+});
+
+router.get("/:username", tokenValidation, async (req, res) => {
+    try {
+        const {username} = req.params;
+
+        if (!username){
+            return  res.status(400).json({ error: 'Usename not found in request' });
+        }
+
+        // Fetch user data
+        const user = await User.findOne({username}).select("-password"); // Exclude the password field
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({user});
+        console.log(`showing data of ${username}`)
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ message: "Server error" });
     }
 });
 

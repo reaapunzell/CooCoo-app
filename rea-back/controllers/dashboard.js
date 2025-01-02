@@ -12,7 +12,7 @@ router.get ('/:username', tokenValidation, async (req,res) => {
         const {username} = req.params;
         // Check if userId is available
         if (!username) {
-            return res.status(400).json({ error: 'Usename not fund in request' });
+            return res.status(400).json({ error: 'Usename not found in request' });
         }
         //fetch user details
         const user = await User.findOne({username}).select('username city');
