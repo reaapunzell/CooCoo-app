@@ -4,24 +4,42 @@ import "../styles/SignUp.css"
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [token, setToken] = useState("")
 
-  const handleLogin = () => {
-    fetch ("http://127.0.0.1:8000/auth/login/", {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try{
+
+    
+   const response = await fetch ("http://localhost:8000/auth/login/", {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: {
         "Content-type": "application/json",
       },
     })
-    .then((res) => res.json())
-    .then((data) => setToken(data.token))
-    .then((err) => console.warn(err))
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Login failed");
+    }
+
+    const data = await response.json();
+    const {token} = data;
+
+    //save token to localstorage
+    localStorage.setItem("token", token)
+
+    navigate(`/dashboard/${username}`);
+  } catch(error){
+    console.error("login error", err);
+    setError(error.message);
   }
+};
 
       //navigate to signup page
       const signUpNav = () => {
@@ -35,12 +53,12 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         {error && <div className="error-message">{error}</div>}
 
-        <label htmlFor="email">Email</label>
+        <label htmlFor="username">Username</label>
         <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="string"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
 
