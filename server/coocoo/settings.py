@@ -26,7 +26,9 @@ SECRET_KEY = "django-insecure-swz#-wyimn(k-tq-t4$1n7umj%_g5*b=a=sce_ok0db(n^ftbf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "coocoo-app.onrender.com"
+]
 
 
 AUTH_USER_MODEL = 'authentication.User'
