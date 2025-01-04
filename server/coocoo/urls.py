@@ -12,12 +12,11 @@ schema_view = get_schema_view(
         description="API documentation for CooCoo Group Buying Application",
         contact=openapi.Contact(email="contact@myapi.local"),
         license=openapi.License(name="BSD License"),
+        # Define schemes here
+        schemes=["https", "http"],  # Allow both HTTP and HTTPS
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),  # Adjust as needed
-    # Add schemes and host for production setup
-    schemes=["https", "http"],  # This will allow both https and http
-    host="coocoo-app.onrender.com",  # Replace with your production domain
 )
 
 urlpatterns = [
