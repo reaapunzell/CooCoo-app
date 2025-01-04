@@ -1,4 +1,3 @@
-# coocoo/urls.py
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
@@ -16,6 +15,9 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),  # Adjust as needed
+    # Add schemes and host for production setup
+    schemes=["https", "http"],  # This will allow both https and http
+    host="coocoo-app.onrender.com",  # Replace with your production domain
 )
 
 urlpatterns = [
@@ -24,4 +26,3 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),  # Authentication-related URLs
     path('api/', include('groups.urls')),        # Group buying-related URLs
 ]
-
