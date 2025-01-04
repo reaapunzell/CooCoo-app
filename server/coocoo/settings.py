@@ -27,7 +27,13 @@ SECRET_KEY = "django-insecure-swz#-wyimn(k-tq-t4$1n7umj%_g5*b=a=sce_ok0db(n^ftbf
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "coocoo-app.onrender.com"
+    "coocoo-app.onrender.com",
+    "http://coocoo-app.onrender.com",
+    "https://coocoo-app.onrender.com",
+    "https://coocoo-app.onrender.com/swagger/"
+
+
+
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
