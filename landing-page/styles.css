@@ -1,13 +1,81 @@
-/* styles.css */
+:root {
+    --primary-color:#90BE6D;
+
+}
 
 body {
     font-family: Arimo, sans-serif;
-    background-color: #f4f4f4;
+    
+    background-color: #ffff;
     margin: 0;
     padding: 0;
     height: 100vh;
 }
 
+h1{
+    font-size: 60px;
+    margin: 0;
+}
+
+button {
+    border-radius: 8px;
+    padding: 10px;
+    background-color: var(--primary-color);
+}
+
+button:hover{
+    background-color: #719952;
+}
+
+.navigation-bar{
+    background-color:white;
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    font-color: black;
+    padding: 10px 20px;
+    box-shadow: 0 4px 8px rgba(163, 163, 163, 0.1);
+    width: 100%
+
+}
+
+.navigation-bar img {
+    height: 5vh;
+    margin: 20px 0 0 10px;
+}
+
+
+.hero-section{
+    display:flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    margin-left: 10px;
+
+}
+
+h2 {
+    font-size: 40px;
+}
+
+p {
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.welcome-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.welcome-section-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin: 20px;
+}
 .contact-form-container {
     background-color: #fff;
     padding: 20px;
@@ -67,4 +135,14 @@ textarea {
 
 .submit-button:hover {
     background-color: #218838;
+}
+
+footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    display:flex;
+    align-items: center;
 }
