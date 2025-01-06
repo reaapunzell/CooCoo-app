@@ -91,7 +91,20 @@ p {
     align-items: center;
     padding: 20px;
     margin: 20px;
+    
 }
+
+.get-started-btn{
+    padding: 20px;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.spacer{
+    margin-bottom: 20px;
+    display:block;
+}
+
 .contact-form-container {
     background-color: #fff;
     padding: 20px;
@@ -106,6 +119,7 @@ h2 {
     color: #333;
     text-align: center;
 }
+
 
 .form-group {
     margin-bottom: 1rem;
@@ -155,7 +169,7 @@ textarea {
 
 footer {
     background-color: var(--primary-color);
-    color: white;
+    color: black;
     text-align: center;
     padding: 20px;
     margin-top: 20px;
