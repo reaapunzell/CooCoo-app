@@ -12,16 +12,16 @@ schema_view = get_schema_view(
         description="API documentation for CooCoo Group Buying Application",
         contact=openapi.Contact(email="contact@myapi.local"),
         license=openapi.License(name="BSD License"),
-        # Define schemes here
-        schemes=["https", "http"],  # Allow both HTTP and HTTPS
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),  # Adjust as needed
+    permission_classes=(permissions.AllowAny,),
+    # Define schemes at the schema level
+    url="https://coocoo-app.onrender.com",  # Use the Render URL
 )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
     path('auth/', include('authentication.urls')),  # Authentication-related URLs
-    path('api/', include('groups.urls')),        # Group buying-related URLs
+    path('api/', include('groups.urls')),           # Group buying-related URLs
 ]
