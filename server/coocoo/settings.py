@@ -96,7 +96,7 @@ WSGI_APPLICATION = "coocoo.wsgi.application"
 
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+#https://docs.djangoproject.com/en/5.0/ref/settings/
 
 #DATABASES = {
     #'default': {
