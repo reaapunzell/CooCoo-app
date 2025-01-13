@@ -1,6 +1,5 @@
 from pathlib import Path
 from datetime import timedelta
-from decouple import config
 import dj_database_url
 import os
 
@@ -11,6 +10,17 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+ALLOWED_HOSTS = [
+    "coocoo-app.onrender.com",
+    "http://coocoo-app.onrender.com",
+    "https://coocoo-app.onrender.com",
+    "https://coocoo-app.onrender.com/swagger/"
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -28,6 +38,11 @@ INSTALLED_APPS = [
     "authentication",
     "groups",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://coocoo-app.onrender.com",
+]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -62,7 +77,7 @@ WSGI_APPLICATION = "coocoo.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
         ssl_require=True
     )
