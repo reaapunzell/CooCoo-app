@@ -2,6 +2,7 @@ from pathlib import Path
 from datetime import timedelta
 import dj_database_url
 import os
+from decouple import config  # Ensure you have this import
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,17 +10,11 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
-ALLOWED_HOSTS = [
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',') + [
     "coocoo-app.onrender.com",
     "http://coocoo-app.onrender.com",
     "https://coocoo-app.onrender.com",
-    "https://coocoo-app.onrender.com/swagger/"
-
-
-CORS_ALLOW_ALL_ORIGINS = True
-
-
+    "https://coocoo-app.onrender.com/swagger/",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -34,7 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "drf_yasg",
-    'corsheaders',
+    "corsheaders",
     "authentication",
     "groups",
 ]
@@ -43,9 +38,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://coocoo-app.onrender.com",
 ]
 
-
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -117,4 +111,3 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
