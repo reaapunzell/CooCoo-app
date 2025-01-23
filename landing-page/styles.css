@@ -3,6 +3,10 @@
 
 }
 
+html {
+    scroll-behavior: smooth;
+  }
+  
 body {
     font-family: Arimo, sans-serif;
     
@@ -13,19 +17,34 @@ body {
     margin: 20px;
 }
 
+header{
+    display:flex;
+}
+
+.logo img {
+    height:80px;
+    
+    color: #4CAF50;
+}
+
 h1{
     font-size: 60px;
     margin: 0;
 }
 
+section {
+    margin: 40px;
+}
+
 button {
-    border-radius: 8px;
-    padding: 10px;
-    background-color: var(--primary-color);
+    border-radius: 23px;
+    padding: 15px;
+    background-color: #ffff;
+    font-size: 28px;
 }
 
 button:hover{
-    background-color: #719952;
+    background-color: var(--primary-color);
 }
 
 .navigation-bar{
@@ -36,7 +55,7 @@ button:hover{
     padding: 10px 20px;
     box-shadow: 0 4px 8px rgba(163, 163, 163, 0.1);
     width: 100%;
-    font-size: 20px;
+    font-size: 32px;
     
 }
 
@@ -64,17 +83,23 @@ button:hover{
 .hero-section{
     display:flex;
     align-items: center;
+    justify-content: center;
     background-color: var(--primary-color);
     margin-left: 10px;
 
 }
 
 h2 {
-    font-size: 40px;
+    font-size: 64px;
+    color: black;
+}
+
+h3 {
+    font-size: 32px;
 }
 
 p {
-    font-size: 18px;
+    font-size: 32px;
     margin-left: 20px;
 }
 
@@ -105,6 +130,28 @@ p {
     display:block;
 }
 
+.getintouch-form{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.getintouch-form p {
+    text-align: justify;
+    
+}
+
+
+
+.getintouch-form img {
+    height: 50px;
+    margin-right: 20px;
+}
+
+.getintouch-text {
+    margin-right: 40px;
+}
+
 .contact-form-container {
     background-color: #fff;
     padding: 20px;
@@ -112,7 +159,10 @@ p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 600px;
     width: 100%;
+    margin-top: 4%;
 }
+
+
 
 h2 {
     margin-top: 0;
@@ -166,42 +216,105 @@ textarea {
 .submit-button:hover {
     background-color: #218838;
 }
-
+ 
 footer {
     background-color: var(--primary-color);
-    color: black;
-    text-align: center;
     padding: 20px;
-    margin-top: 20px;
-    display: flex;
-    flex-direction:column;
+    text-align: center;
+    color: #ffffff;
+}
+
+.footer-content{
+    display:flex;
+    justify-content: space-around;
     align-items: center;
 }
-
-right-footer, left-footer{
-    display: flex;
-    flex-direction:column;
-    margin: 40px;
-    text-align: left;
-
+footer ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-footer a {
-    margin-top: 10px;
-    color: black;
+footer ul li {
+    display: flex;
+    margin-right: 20px;
+    margin-top:10px;
+}
+
+footer ul li a {
+    color: #ffffff;
     text-decoration: none;
 }
 
-footer a:hover {
-    color:  #ffff;
+.newsletter input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
 }
 
-.footer-top-section{
-    display:flex;
-    justify-content:right;
+.newsletter button {
+    padding: 10px;
+    background-color: #81C784;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
 }
 
-footer img{
-    height: 5vh;
-    margin-left: 10px;
+
+.mailing-list-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 500px;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+
+}
+
+#message {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: green;
+}
+
+.whatsapp-group-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #1da851;; /* WhatsApp green */
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+}
+
+.whatsapp-group-link:hover {
+    background-color: #086028; /* Darker green on hover */
+}
+
+.about-us-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    text-align: justify;
+}
+
+.about-us-container img {
+    width: 50%;
+    height: 50%;
 }
