@@ -311,21 +311,88 @@ input[type="email"] {
 .about-us-container{
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     font-size: 12px;
     text-align: justify;
 }
 
 .about-us-container img {
-    width: 50%;
-    height: 50%;
+    height: 50vh;
 }
 
 @media screen and (max-width: 500px){
     body{
-        background-color: whitecal;
+        background-color: white;
+        font-size: 12px; /* Adjusted font size */
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navigation-bar {
+        flex-direction: column;
+        font-size: 14px; /* Adjusted font size */
+    }
+
+    .navigation-bar img {
+        height: 40px; /* Adjusted height */
+    }
+
+    h1{
+        font-size: 24px; /* Adjusted font size */
+    }
+
+    h2 {
+        font-size: 20px; /* Adjusted font size */
+    }
+
+    h3 {
+        font-size: 18px; /* Adjusted font size */
+    }
+
+    p {
+        font-size: 14px; /* Adjusted font size */
+    }
+
+    button {
+        font-size: 14px; /* Adjusted font size */
+        padding: 10px; /* Adjusted padding */
+    }
+
+    .hero-section{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .welcome-section img {
+        height: 1vh;
+        width: 90%;
+    }
+
+    .welcome-section-2 {
+        flex-direction: column;
+        padding: 10px; /* Adjusted padding */
+    }
+
+    
+
+    .getintouch-form {
+        flex-direction: column;
+    }
+    
+    .about-us-container {
+        flex-direction: column;
+    }
+
+    .footer-content{
+        display:flex;
+        flex-direction: column;
     }
 }
+
 
 @media screen and (max-width: 1024px){
 
@@ -356,6 +423,13 @@ input[type="email"] {
     
     .welcome-section-2 {
         flex-direction: column;
+        align-items: center;
+    }
+
+    .welcome-section{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .welcome-section img {
@@ -375,5 +449,7 @@ input[type="email"] {
     .getintouch-form {
         flex-direction: column;
     }
+
+   
 }
 
