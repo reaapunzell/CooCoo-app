@@ -3,6 +3,8 @@
 
 }
 
+
+
 html {
     scroll-behavior: smooth;
   }
@@ -318,3 +320,60 @@ input[type="email"] {
     width: 50%;
     height: 50%;
 }
+
+@media screen and (max-width: 500px){
+    body{
+        background-color: red;
+    }
+}
+
+@media screen and (max-width: 1024px){
+
+    body{
+        font-size:1.5rem;
+        margin: 2px;
+    }
+
+    h2{
+        font-size: 2rem;
+    }
+
+    p{
+        font-size: 1.5rem;
+    }
+
+    img{
+        height: 40vh;
+    }
+    .navigation-bar{
+        font-size:1.5rem;
+    }
+
+    .navigation-bar button{
+        font-size: 1.5rem;
+    }
+    
+    
+    .welcome-section-2 {
+        flex-direction: column;
+    }
+
+    .welcome-section img {
+        height: 20vh;
+    }
+
+    .welcome-section-2 img{
+        height: 40vh;
+        margin-top: 100px;
+    }
+
+    .about-us-container {
+        display:flex;
+        flex-direction: column;
+    }
+
+    .getintouch-form {
+        flex-direction: column;
+    }
+}
+
