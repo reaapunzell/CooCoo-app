@@ -17,3 +17,20 @@
     grid-column: 2/3;
     grid-row: 2/4;
 }
+
+@media screen and (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Single-column layout for tablets */
+        grid-template-rows: auto auto auto; /* Adjust rows to fit content */
+    }
+
+    .weather-component {
+        grid-column: 1; /* Span the single column */
+        grid-row: 1; /* Keep it at the top */
+    }
+
+    .calendar-component {
+        grid-column: 1; /* Span the single column */
+        grid-row: 2; /* Move below the weather component */
+    }
+}

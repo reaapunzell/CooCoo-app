@@ -36,7 +36,7 @@ const Login = () => {
 
     navigate(`/dashboard/${username}`);
   } catch(error){
-    console.error("login error", err);
+    console.error("login error", error);
     setError(error.message);
   }
 };
@@ -71,7 +71,7 @@ const Login = () => {
           required
         />
 
-        <button  className="login-btn" type='button' onClick={handleLogin}>Login</button>
+        <button  className="login-btn" type='submit' onClick={handleLogin}>Login</button>
       </form>
 
       <div className="signup-footer">
