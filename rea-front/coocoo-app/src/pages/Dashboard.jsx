@@ -63,9 +63,6 @@ const Dashboard = () => {
           <div className="weather-component">
             <WeatherComponent />
           </div>
-          <div className="calendar-component">
-            <Calendar />
-          </div>
           <div className="group-alert-component">
             <h2>Alerts</h2>
             <GroupAlert />

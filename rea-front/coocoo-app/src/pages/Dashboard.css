@@ -20,7 +20,7 @@
 
 @media screen and (max-width: 1024px) {
     .grid-container {
-        grid-template-columns: 1fr; /* Single-column layout for tablets */
+        grid-template-columns: auto; /* Single-column layout for tablets */
         grid-template-rows: auto auto auto; /* Adjust rows to fit content */
     }
 
@@ -29,8 +29,16 @@
         grid-row: 1; /* Keep it at the top */
     }
 
+    .group-alert-component{
+        grid-column: 1;
+        grid-row: 2;
+        width: 50vh;
+    }
+
     .calendar-component {
         grid-column: 1; /* Span the single column */
-        grid-row: 2; /* Move below the weather component */
+        grid-row: 3; /* Move below the weather component */
     }
+
+    
 }

@@ -19,7 +19,6 @@ const Settings = () => {
           <Routes>
             <Route path="/" element={<AccountForm />} />
             <Route path="changepassword" element={<ChangePassword />} />
-            <Route path="notifications" element={<Notifications />} />
             <Route path="personalisation" element={<Personalization />} />
             <Route path="securityandprivacy" element={<SecurityAndPrivacy />} />
             <Route path="*" element={<h2>Page Not Found</h2>} />
