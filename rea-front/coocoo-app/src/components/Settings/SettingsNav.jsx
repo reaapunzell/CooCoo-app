@@ -9,9 +9,6 @@ function SettingsNav() {
         <Nav>
         <Nav.Link href="/settings">Account</Nav.Link>
             <Nav.Link href="/settings/changepassword">Change Password</Nav.Link>
-            <Nav.Link href="/settings/notifications">Notifications</Nav.Link>
-            <Nav.Link href="/settings/personalisation">Personlisation</Nav.Link>
-            <Nav.Link href="/settings/securityandprivacy">Security and Privacy</Nav.Link>
         </Nav>
     </div>
   );

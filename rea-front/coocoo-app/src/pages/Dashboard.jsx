@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navigation from "../components/Navigation";
-import Calendar from "../components/Calendar/Calendar";
 import WeatherComponent from "../components/Weather";
 import JoinedGroups from "../components/Group Buying/JoinedGroup";
 import "../components/Group Buying/Onboarding.css";

@@ -13,10 +13,6 @@
     grid-row: 1;
 }
 
-.calendar-component {
-    grid-column: 2/3;
-    grid-row: 2/4;
-}
 
 @media screen and (max-width: 1024px) {
     .grid-container {
