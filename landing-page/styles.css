@@ -1,6 +1,10 @@
 :root {
   --primary-color: #90be6d;
   --secondary-color: #218838;
+  --background-color-light: #ffff;
+  --background-color-dark: #ffffff;
+  --text-color-light: #000;
+  --text-color-dark: #000000;
 }
 
 html {
@@ -10,7 +14,8 @@ html {
 body {
   font-family: Arimo, sans-serif;
 
-  background-color: #ffff;
+  background-color: var(--background-color-light);
+  
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -39,7 +44,7 @@ section {
 button {
   border-radius: 23px;
   padding: 15px;
-  background-color: #ffff;
+  background-color: var(--background-color-light);
   font-size: 28px;
 }
 
@@ -48,7 +53,7 @@ button:hover {
 }
 
 .navigation-bar {
-  background-color: white;
+  background-color: var(--background-color-light);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -81,16 +86,18 @@ button:hover {
 
 h2 {
   font-size: 64px;
-  color: black;
+  color: var(--text-color-light);
 }
 
 h3 {
   font-size: 32px;
+  color: var(--text-color-light);
 }
 
 p {
   font-size: 32px;
   margin-left: 20px;
+  color: var(--text-color-light);
 }
 
 .welcome-section {
@@ -311,7 +318,7 @@ input[type="email"] {
   height: 50vh;
 }
 
-@media screen and (max-width: 500px) {
+@media screen  and (max-width: 500px) {
   body {
     background-color: white;
     font-size: 12px; /* Adjusted font size */
@@ -463,3 +470,35 @@ input[type="email"] {
     flex-direction: column;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+      background-color: var(--background-color-dark);
+      color: var(--text-color-dark);
+    }
+  
+    button {
+      background-color: var(--background-color-dark);
+      color: var(--text-color-dark);
+    }
+  
+    .navigation-bar {
+      background-color: var(--background-color-dark);
+      color: var(--text-color-dark);
+    }
+  
+    .navigation-bar a {
+      color: var(--text-color-dark);
+    }
+  
+    footer {
+      background-color: var(--background-color-dark);
+      color: var(--text-color-dark);
+    }
+  
+    footer ul li a {
+      color: var(--text-color-dark);
+    }
+  }
+
+  
