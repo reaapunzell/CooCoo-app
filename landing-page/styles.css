@@ -71,10 +71,7 @@ button:hover{
 
 }
 
-.navigation-bar .active{
-    color: var(--primary-color);
-    text-decoration: underline;
-}
+
 
 
 .navigation-bar img {
