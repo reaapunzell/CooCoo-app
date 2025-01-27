@@ -1,4 +1,3 @@
-# coocoo/urls.py
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
@@ -15,13 +14,14 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),  # Adjust as needed
+    permission_classes=(permissions.AllowAny,),
+    # Define schemes at the schema level
+    url="https://coocoo-app.onrender.com",  # Use the Render URL
 )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
     path('auth/', include('authentication.urls')),  # Authentication-related URLs
-    path('api/', include('groups.urls')),        # Group buying-related URLs
+    path('api/', include('groups.urls')),           # Group buying-related URLs
 ]
-
