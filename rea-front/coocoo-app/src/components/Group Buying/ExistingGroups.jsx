@@ -73,11 +73,13 @@ const ExistingGroups = () => {
         throw new Error(errorData.message || "Failed to join group");
       }
 
-      navigate("/joined-groups");
+      navigate(`/group/${group.id}`);
     } catch (error) {
       console.error("Join group error:", error);
       setError(error.message);
     }
+
+
   };
 
   return (
