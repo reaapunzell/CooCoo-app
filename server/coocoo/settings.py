@@ -15,6 +15,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',') + [
     "http://coocoo-app.onrender.com",
     "https://coocoo-app.onrender.com",
     "https://coocoo-app.onrender.com/swagger/",
+    "localhost",
+    "127.0.0.1",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -71,11 +73,12 @@ WSGI_APPLICATION = "coocoo.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
+        default=config('DATABASE_URL', default=None),  # Use decouple's config
         conn_max_age=600,
         ssl_require=True
     )
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -111,3 +114,4 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
