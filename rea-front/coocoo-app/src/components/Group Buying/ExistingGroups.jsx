@@ -6,38 +6,79 @@ import Group from "./Group";
 
 const ExistingGroups = () => {
   const navigate = useNavigate();
-  const [groups, setGroups] = useState([])
+  const [groups, setGroups] = useState([]); // Groups state (default to empty array)
+  const [selectedGroupId, setSelectedGroupId] = useState(null); // Track selected group
+  const [error, setError] = useState(""); // Error state
+  const token = localStorage.getItem("token"); // Retrieve token
 
-  useEffect(()=>{
-    setGroups([])
-
-    if (token){
-      fetch("http://127.0.0.1:8000/api/groups/", {
-        method: "GET",
-        header:{
-          authorization:token,
-        },
-      })
-      .then((res) => res.json())
-      .then((data) => setGroups(data))
-      .catch((err) => console.warn("fetch failed"))
+  useEffect(() => {
+    if (!token) {
+      setError("User not authenticated. Please log in.");
+      return;
     }
 
-  }, [token])
+    fetch("https://coocoo-app.onrender.com/api/groups/", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`, // Corrected Authorization header
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch groups.");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Fetched groups:", data);
+        setGroups(data);
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setError(err.message);
+      });
+  }, [token]);
+
+  // Function to handle selecting a group
+  const handleSelectGroup = (groupId) => {
+    setSelectedGroupId(groupId);
+  };
 
   // Function to handle joining a group
-  const JoinGroup = (e) => {
+  const JoinGroup = async (e) => {
     e.preventDefault();
-    navigate("/joined-groups");
+
+    if (!selectedGroupId) {
+      setError("Please select a group before joining.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://coocoo-app.onrender.com/api/groups/${selectedGroupId}/join`,
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            quantity: 0,
+            amount_contributed: 0,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to join group");
+      }
+
+      navigate("/joined-groups");
+    } catch (error) {
+      console.error("Join group error:", error);
+      setError(error.message);
+    }
   };
-
-  // Function to select a group (can be updated as needed)
-  const SelectGroup = (groupId) => {
-    console.log(`Selected group ID: ${groupId}`);
-  };
-
-  
-
 
   return (
     <div className="app-container">
@@ -46,18 +87,43 @@ const ExistingGroups = () => {
         <div className="header">
           <span>Select your Group Order Option</span>
         </div>
-        <div className="user-address-container">
-          <span>Address</span>
-          <div className="user-address">
-            <span>52 Benacre Lane, Johannesburg</span>
-            <button>Update Address</button>
+
+        {/* Dynamically Load User Address if Available */}
+        {groups.length > 0 && groups[0].city ? (
+          <div className="user-address-container">
+            <span>Address</span>
+            <div className="user-address">
+              <span>
+                {groups[0].city.name}, {groups[0].city.province}
+              </span>
+              <button>Update Address</button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <p>Loading address...</p>
+        )}
+
+        {error && <p className="error-message">{error}</p>} {/* Show error message */}
+
         <div id="groups-wrapper">
-        {groups.map((group)=>(
-          <Group key={group._id} group={group}/>
-        ))}
+          {groups.length === 0 ? (
+            <p>No group orders available.</p>
+          ) : (
+            groups.map((group) => (
+              <div key={group.id} onClick={() => handleSelectGroup(group.id)}>
+                <Group group={group} />
+                <button
+                  className={`select-group-btn ${
+                    selectedGroupId === group.id ? "selected" : ""
+                  }`}
+                >
+                  {selectedGroupId === group.id ? "Selected" : "Select Group"}
+                </button>
+              </div>
+            ))
+          )}
         </div>
+
         <button className="joingroup-btn" type="button" onClick={JoinGroup}>
           Join Group
         </button>

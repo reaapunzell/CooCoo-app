@@ -14,36 +14,73 @@ const Login = () => {
   const [token, setToken] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showResendOTP, setShowResendOTP] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://coocoo-app.onrender.com/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
-      }
-
+      const response = await fetch(
+        "https://coocoo-app.onrender.com/auth/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+  
       const data = await response.json();
-      setToken(data.token); // Corrected token handling
+  
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+  
+      setToken(data.token);
       localStorage.setItem("token", data.token);
-
+  
       setResponseMessage("Login successful");
       navigate(`/groupbuying`);
     } catch (error) {
-      console.error("login error", error);
-      setError(error.message);
-     
+      console.error("Error response:", error.message);
+  
+      if (error.message.includes("Email not verified")) {
+        setErrorMessage("Email not verified. Please verify your email.");
+        setShowResendOTP(true);
+      } else {
+        setErrorMessage(error.message);
+      }
+    }
+  };
+  
+
+  //Resend otp to email
+  const handleResendOTP = async () => {
+    try {
+      const response = await fetch(
+        "https://coocoo-app.onrender.com/auth/resend-otp/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: formData.email }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to resend OTP. Please try again.");
+      }
+
+      setResponseMessage("OTP has been resent to your email.");
+      setShowResendOTP(false); // Hide the button after resending
+
+      navigate("/verify-email", { state: { email: formData.email } });
+    } catch (error) {
+      setErrorMessage(error.message);
     }
   };
 
@@ -66,7 +103,17 @@ const Login = () => {
       <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
-        {error && <div className="error-message">{error}</div>}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+        {showResendOTP && (
+          <button
+            className="resend-otp-btn"
+            type="button"
+            onClick={handleResendOTP}
+          >
+            Resend OTP Verification
+          </button>
+        )}
 
         <label htmlFor="email">Email</label>
         <input
