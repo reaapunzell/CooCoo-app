@@ -16,7 +16,7 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
     # Define schemes at the schema level
-    url="https://coocoo-app.onrender.com",  # Use the Render URL
+    url="http://localhost:8000",  # Use the Render URL
 )
 
 urlpatterns = [
