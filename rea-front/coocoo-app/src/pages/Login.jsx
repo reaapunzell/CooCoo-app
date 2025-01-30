@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/SignUp.css";
 import { useNavigate } from "react-router-dom";
+import LoadingAnimation from "../components/Settings/LoadingAnimation";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const Login = () => {
     password: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [token, setToken] = useState("");
@@ -99,6 +101,10 @@ const Login = () => {
   };
 
   return (
+    <div>
+      {isLoading ? (
+        <LoadingAnimation />
+      ): (
     <div className="login-container">
       <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
       <h1>Login</h1>
@@ -146,6 +152,8 @@ const Login = () => {
           Sign Up
         </button>
       </div>
+    </div>
+    )}
     </div>
   );
 };

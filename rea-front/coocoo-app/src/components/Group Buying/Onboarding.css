@@ -36,6 +36,19 @@
   }
   
 
+  .circle {
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px; /* Add spacing between the circle and the text */
+  }
 
   .welcome-banner h1{
     color:rgba(144,190,109,1) ;
