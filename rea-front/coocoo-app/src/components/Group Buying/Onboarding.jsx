@@ -8,7 +8,7 @@ const GroupBuyingOnboarding = () => {
 
   const initiateNewGroup = (e) => {
     e.preventDefault();
-    navigate("/initiatenewgroup");
+    navigate("/initiate-group");
   };
 
   const joinExisitingGroup = (e) => {

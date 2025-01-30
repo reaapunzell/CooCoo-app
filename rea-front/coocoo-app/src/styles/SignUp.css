@@ -81,4 +81,29 @@ body, html{
     margin-bottom: 1rem;
   }
   
+  .verify-otp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+  }
+  
+  .verify-otp-container img {
+    width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  .verify-otp-container h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .verify-otp-container p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
   

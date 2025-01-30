@@ -12,6 +12,10 @@ import Login from "./pages/Login.jsx";
 import GroupAlert from "./components/Group Buying/GroupAlert.jsx";
 import Settings from "./pages/Settings.jsx"; 
 import VerifiedEmail from "./pages/VerfiedEmai.jsx"; 
+import Group from "./components/Group Buying/Group.jsx";
+import VerifyOTP from "./pages/VerifyOTP.jsx";
+import InitiateGroup from "./components/Group Buying/InitiateGroup.jsx";
+import GroupDetails from "./components/Group Buying/GroupDetails.jsx";
 
 function App() {
   return (
@@ -23,11 +27,15 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/groupbuying" element={<GroupBuyingOnboarding />} />
         <Route path="/existing-groups" element={<ExistingGroups />} />
+        <Route path="/initiate-group" element={<InitiateGroup />} />
+        <Route path="/group/:id" element={GroupDetails} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/joined-groups" element={<JoinedGroups />} />
         <Route path="/group-alert" element={<GroupAlert />} />
         <Route path="/settings/*" element={<Settings />} />
-        <Route path="/verify-email" element={<VerifiedEmail />} />
+        <Route path="/verify-email" element={<VerifyOTP/>} />
+        <Route path="/group" element={<Group />} />
+        
       </Routes>
     </BrowserRouter>
   );
