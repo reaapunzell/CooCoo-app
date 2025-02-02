@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "authentication",
     "groups",
+    "notifications",
 ]
 
 CORS_ALLOWED_ORIGINS = [
