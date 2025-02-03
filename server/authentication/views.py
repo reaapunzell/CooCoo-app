@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from .serializers import UserSignupSerializer, UserLoginSerializer, UserProfileSerializer
-from .utils import generate_otp, send_otp_email
+from .utils import generate_otp, send_otp_email, send_password_reset_otp
 from drf_yasg import openapi
 from .models import User
 from datetime import timedelta
@@ -211,7 +211,7 @@ class ForgotPasswordView(APIView):
             user.otp = reset_otp
             user.otp_created_at = now()
             user.save()
-            send_otp_email(user.email, reset_otp)
+            send_password_reset_otp(user.email, reset_otp)
 
             return Response({"message": "OTP sent to email for password reset."}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
