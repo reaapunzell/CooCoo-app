@@ -85,7 +85,7 @@ button:hover {
 }
 
 h2 {
-  font-size: 64px;
+  font-size: 3rem;
   color: var(--text-color-light);
 }
 
@@ -130,7 +130,7 @@ p {
 }
 
 .getintouch-form img {
-  height: 80vh;
+  height: auto;
   text-align: center;
 }
 
@@ -162,20 +162,13 @@ h2 {
   text-align: center;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-  font-size: 40px;
-}
-
-.form-group input, .form-group textarea {
-    font-size: 20px;
-}
 label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
   color: #333;
 }
+
 
 .contact-form-container input,
 .contact-form-container textarea {
@@ -185,12 +178,10 @@ label {
   border-radius: 4px;
   margin-bottom: 16px;
   box-sizing: border-box; 
-  /* Ensure padding doesn't affect width */
+ 
 }
 
-textarea {
-  resize: vertical;
-}
+
 
 .error-message {
   color: red;
@@ -292,12 +283,12 @@ input[type="email"] {
 .whatsapp-group-link {
   display: inline-block;
   margin-top: 15px;
-  padding: 10px 20px;
+  padding: 20px 30px;
   background-color: #1da851; /* WhatsApp green */
   color: white;
   text-decoration: none;
   border-radius: 10px;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   transition: background-color 0.3s;
 }
 
@@ -466,9 +457,33 @@ input[type="email"] {
     flex-direction: column;
   }
 
+  
+
   .getintouch-form {
+
     flex-direction: column;
+    font-size: 1rem;
   }
+
+  .getintouch-text{
+    flex-direction:column;
+    justify-content: center;
+    margin: 0px;
+    
+  }
+
+  .getintouch-text img{
+    max-height: 40vh;
+  }
+
+  .form-group{
+    font-size: 1rem;
+  }
+
+  .form-group input, .form-group textarea {
+    font-size: 1rem;
+  }
+
 }
 
 @media (prefers-color-scheme: dark) {
