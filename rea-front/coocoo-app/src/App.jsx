@@ -16,6 +16,7 @@ import Group from "./components/Group Buying/Group.jsx";
 import VerifyOTP from "./pages/VerifyOTP.jsx";
 import InitiateGroup from "./components/Group Buying/InitiateGroup.jsx";
 import GroupDetails from "./components/Group Buying/GroupDetails.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/weather" element={<WeatherComponent />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/groupbuying" element={<GroupBuyingOnboarding />} />

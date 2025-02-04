@@ -135,10 +135,15 @@ const Login = () => {
           required
         />
 
+<div className="forgot-password">
+        <a href="/forgot-password">Forgot your Password?</a>
+</div>
+
         <button className="login-btn" type="submit">
           Login
         </button>
       </form>
+
 
       <div className="signup-footer">
         <span> Don't have an account? </span>
