@@ -1,7 +1,7 @@
 
 (function() {
     // https://dashboard.emailjs.com/admin/account
-    emailjs.init("07Ec7al67-83bdo0c");
+    emailjs.init("95xG3TUDvib5E6det");
 })();
 
 
@@ -9,7 +9,7 @@ window.onload = function() {
     document.getElementById('contactForm').addEventListener('submit', function(event) {
         event.preventDefault();
         // these IDs from the previous steps
-        emailjs.send('CooCoo', 'template_h8j2rne', {
+        emailjs.send("Coocoo Landing Page","template_3sou7dh", {
             from_name: document.getElementById('name').value,
             reply_to: document.getElementById('email').value,
             message: document.getElementById('message').value,
