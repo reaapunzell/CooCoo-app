@@ -16,28 +16,17 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const reponse = await axios.post(
-        "https://coocoo-app.onrender.com/auth/forgot-password",
+        "https://coocoo-app.onrender.com/auth/forgot-password/",
         {
           email,
         }
       );
       setResponseMessage("Instructions to reset your password have been sent to your email.");
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => navigate("/reset-password"), 2000);
     } catch (error) {
       console.error("Error:", error.response);
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data;
-
-        // Extract all error messages and join them into a single string
-        const errorMessages = Object.values(errorData)
-          .flat() // Flatten arrays to handle multiple errors
-          .join(" "); // Join messages with a space
-
-        setResponseMessage(errorMessages);
-      } else {
-        setResponseMessage("Password reset failed. Please try again.");
-      }
+     
     }
   };
 
