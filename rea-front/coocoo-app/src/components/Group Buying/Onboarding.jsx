@@ -28,7 +28,7 @@ const GroupBuyingOnboarding = () => {
             efficient for farmers!{" "}
           </p>
         </div>
-        <div className="description">
+        <div className="          ">
           <p>
             {" "}
             This feature allows you to start or join group orders for essential

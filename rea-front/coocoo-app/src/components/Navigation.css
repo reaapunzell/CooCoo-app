@@ -9,15 +9,16 @@
     padding: 20px;
     width: 200px; 
     height: 100vh;  
-    border-right: 1px solid #ddd; 
-    
-    left:0px;
+  left: 0px;
+  top: 0px;
 }
 
 
 .navigation-bar img {
     width: 200px;
     margin-bottom: 20px;
+   
+    top:0px;
 }
 
 
