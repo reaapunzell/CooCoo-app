@@ -34,3 +34,8 @@ class UserLoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return data  # Return data, not the user object
         raise serializers.ValidationError("Incorrect credentials or inactive account.")
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'email_verified', 'is_active', 'is_staff')

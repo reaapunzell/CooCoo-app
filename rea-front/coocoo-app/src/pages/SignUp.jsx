@@ -1,55 +1,115 @@
 import React, { useState } from "react";
 import "../styles/SignUp.css";
-import provinces from "../components/data/Provinces.jsx";
-import townsData from "../components/data/Towns.jsx";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",
-    surname: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    province: "",
-    town: "",
   });
 
-  const [filteredTowns, setFilteredTowns] = useState([]);
+
   const [responseMessage, setResponseMessage] = useState("");
   const [isVerificationSent, setIsVerificationSent] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
 
+
+  // Handle input change
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    // Update towns when province changes
-    if (name === "province") {
-      setFilteredTowns(townsData[value] || []);
-      setFormData({ ...formData, province: value, town: "" }); // Reset town when province changes
-    }
+  const {name, value} = e.target;
+  setFormData({...formData, [name]: value});
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setResponseMessage("Passwords do not match.");
+      return;
+    }
+    console.log("Request payload:", {
+      email: formData.email,
+      first_name: formData.firstName,
+      last_name: formData.surname,
+      password: formData.password,
+    });
+
+
+
     try {
-      const response = await axios.post("http://127.0.0.1:8000/auth/signup/", {
+      const response = await axios.post("https://coocoo-app.onrender.com/auth/signup/", { 
         email: formData.email,
         first_name: formData.firstName,
-        last_name: formData.surname,
+        last_name: formData.lastName,
         password: formData.password,
       });
+
+
+      //Send OTP to email
+      await axios.post("https://coocoo-app.onrender.com/auth/resend-otp/", {
+        email: formData.email,
+        otp,
+      });
+
+        // Navigate to OTP verification page
+        navigate("/verify-email", { state: { email: formData.email } });
+
+
       setResponseMessage(
         "Signup successful. Please check your email to verify your account."
       );
       setIsVerificationSent(true);
-    } catch (error) {
-      setResponseMessage("Signup failed: " + error.response.data.detail);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    }  catch (error) {
+      console.error("Full error response:", error.response);
+    
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+    
+        // Extract all error messages and join them into a single string
+        const errorMessages = Object.values(errorData)
+          .flat() // Flatten arrays to handle multiple errors
+          .join(" "); // Join messages with a space
+    
+        setResponseMessage(errorMessages);
+      } else {
+        setResponseMessage("Signup failed. Please try again.");
+      }
+    }
+    
+  };
+
+
+  //Handle OTP verification
+  const handleVerifyOtp = async (e) => { 
+    try{
+      const response = await axios.post("'https://coocoo-app.onrender.com/auth/resend-otp/", {
+        email: formData.email,
+        otp,
+      })
+      setResponseMessage("response.data.message");
+      setIsVerified(true);
+    } catch (error){
+      console.error("Full error response:", error.response);
+      
+      setResponseMessage("Verification failed: " + (error.response.body));
     }
   };
 
+  //navigate to login page
   const loginNav = () => {
     navigate("/");
   };
@@ -122,44 +182,6 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
-        </div>
-
-        {/* Province */}
-        <div className="form-group">
-          <label htmlFor="province">Province</label>
-          <select
-            id="province"
-            name="province"
-            value={formData.province}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Province</option>
-            {provinces.map((province, index) => (
-              <option key={index} value={province}>
-                {province}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Town */}
-        <div className="form-group">
-          <label htmlFor="town">Town/Area</label>
-          <select
-            id="town"
-            name="town"
-            value={formData.town}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Town/Area</option>
-            {filteredTowns.map((town, index) => (
-              <option key={index} value={town}>
-                {town}
-              </option>
-            ))}
-          </select>
         </div>
 
         {/* Submit Button */}

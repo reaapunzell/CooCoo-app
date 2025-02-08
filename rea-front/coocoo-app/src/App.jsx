@@ -12,6 +12,12 @@ import Login from "./pages/Login.jsx";
 import GroupAlert from "./components/Group Buying/GroupAlert.jsx";
 import Settings from "./pages/Settings.jsx"; 
 import VerifiedEmail from "./pages/VerfiedEmai.jsx"; 
+import Group from "./components/Group Buying/Group.jsx";
+import VerifyOTP from "./pages/VerifyOTP.jsx";
+import InitiateGroup from "./components/Group Buying/InitiateGroup.jsx";
+import GroupDetails from "./components/Group Buying/GroupDetails.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 function App() {
   return (
@@ -19,15 +25,21 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/weather" element={<WeatherComponent />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/groupbuying" element={<GroupBuyingOnboarding />} />
         <Route path="/existing-groups" element={<ExistingGroups />} />
+        <Route path="/initiate-group" element={<InitiateGroup />} />
+        <Route path="/group/:id" element={GroupDetails} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/joined-groups" element={<JoinedGroups />} />
         <Route path="/group-alert" element={<GroupAlert />} />
         <Route path="/settings/*" element={<Settings />} />
-        <Route path="/verify-email" element={<VerifiedEmail />} />
+        <Route path="/verify-email" element={<VerifyOTP/>} />
+        <Route path="/group" element={<Group />} />
+        
       </Routes>
     </BrowserRouter>
   );
