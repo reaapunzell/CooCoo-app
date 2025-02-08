@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-const JWT_KEY = "this is a secret"
+const JWT_KEY = process.env.JWT_KEY;
 
 const tokenValidation = (req, res, next) => {
   try {
@@ -27,5 +27,9 @@ const tokenValidation = (req, res, next) => {
     res.send(err)
   }
 }
+
+
+
+
 
 export default tokenValidation
