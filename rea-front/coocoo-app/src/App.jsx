@@ -19,6 +19,8 @@ import InitiateGroup from "./components/Group Buying/InitiateGroup.jsx";
 import GroupDetails from "./components/Group Buying/GroupDetails.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import AdminLogin from "./components/Admin/AdminLogin.jsx";
+import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true); // Add the loading state
@@ -51,6 +53,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/weather" element={<WeatherComponent />} />
@@ -65,6 +68,8 @@ function App() {
             <Route path="/settings/*" element={<Settings />} />
             <Route path="/verify-email" element={<VerifyOTP />} />
             <Route path="/group" element={<Group />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
         </BrowserRouter>
       )}

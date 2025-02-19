@@ -1,165 +1,129 @@
-import React, {useEffect, useState} from "react";
-import "./Settings.css"
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"; // Import useParams
+import "./Settings.css";
 
 const AccountForm = () => {
-
   const [userData, setUserData] = useState({
-    username:"",
-  firstName: "",
-      surname: "",
+    id: "",
     email: "",
-    phoneNumber: "",
-    dateOfBirth: "",
-    province: "",
-    streetAddress: "",
-    postalCode: "",
-  })
-  
-  //fetch user data from  backend
+    firstName: "",
+    lastName: "",
+    emailVerified: false,
+    isActive: false,
+    isStaff: false,
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const token = localStorage.getItem("token");
+  const { id } = useParams();
+
   useEffect(() => {
+    console.log("Token:", localStorage.getItem("token"));
+
+    if (!token) return; 
+  
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("jwt"); // Assuming the token is stored in localStorage
-        const response = await fetch(`http://localhost:8000/dashboard/${username}`,
-         {
+        const response = await fetch(`https://coocoo-app.onrender.com/auth/profile/`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
+  
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
+  
         const data = await response.json();
         setUserData({
-          username: data.username || "",
-          firstName: data.firstName || "",
-          surname: data.surname || "",
+          id: data.id || "",
           email: data.email || "",
-          phoneNumber: data.phoneNumber || "",
-          dateOfBirth: data.dateOfBirth || "",
-          province: data.province || "",
-          streetAddress: data.streetAddress || "",
-          postalCode: data.postalCode || "",
+          firstName: data.first_name || "",
+          lastName: data.last_name || "",
+          emailVerified: data.email_verified || false,
+          isActive: data.is_active || false,
+          isStaff: data.is_staff || false,
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
-
+  
     fetchUserData();
-  }, []);
+  }, [token]); 
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
 
+  const handleUpdate = async () => {
+    try {
+      const response = await fetch(`https://coocoo-app.onrender.com/auth/profile/`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: userData.firstName,
+          last_name: userData.lastName,
+          email: userData.email,
+          email_verified: userData.emailVerified,
+          is_active: userData.isActive,
+          is_staff: userData.isStaff,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to update user data");
+      }
+      alert("Account information updated successfully!");
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+  
+
   return (
     <section className="account-info">
       <h2>Account Information</h2>
-      <div className="form-container">
-      </div>
       <form>
-        
-      <div className="form-row">
-            <div className="input-box">
-          <label>Username</label>
-          <input type="text"
-          name="username"
-          value={userData.username}
-          onChange={handleChange} />
-          </div>
-        </div>
-
         <div className="form-row">
-            <div className="input-box">
-          <label>First Name</label>
-          <input type="text" 
-          name="firstName"
-          value={userData.firstName}
-          onChange={handleChange}/>
-          </div>
-
-<div className="input-box">
-          <label>Surname</label>
-          <input type="text"
-          name="surname"
-          value={userData.surname}
-          onChange={handleChange} />
-          </div>
-        </div>
-        <div className="form-row">
-            <div className="input-box">
-          <label>Email</label>
-          <input type="email" 
-            name="email"
-            value={userData.email}
-            onChange={handleChange}/>
-          </div>
-
-        <div className="input-box">
-          <label>Phone Number</label>
-          <input type="text"
-          name="phoneNumber"
-          value={userData.phoneNumber}
-          onChange={handleChange} />
-          </div>
-        </div>
-
-        <div className="form-row">
-            <div className="input-box">
-          <label>Date of birth</label>
-          <input type="date" 
-          name="dateOfBirth"
-          value={userData.dateOfBirth}
-          onChange={handleChange}/>
-          </div>
-        </div>
-
-        <div className="address-information" >
-          <h2>Address Information</h2>
-        </div>
-
-        <div className="form-row">
-            <div className="input-box">
-          <label>Province</label>
-          <input type="text"
-           name="province"
-           value={userData.province}
-           onChange={handleChange} />
-          </div>
-
           <div className="input-box">
-          <label>Town</label>
-          <input type="text"
-           name="town"
-           value={userData.town}
-           onChange={handleChange} />
+            <label>ID</label>
+            <input type="text" name="id" value={userData.id} readOnly />
           </div>
         </div>
 
         <div className="form-row">
           <div className="input-box">
-          <label>Street Address</label>
-          <input type="text" 
-           name="street address"
-           value={userData.streetAddress}
-           onChange={handleChange}/>
+            <label>Email</label>
+            <input type="email" name="email" value={userData.email} onChange={handleChange} disabled={!isEditing} />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="input-box">
+            <label>First Name</label>
+            <input type="text" name="firstName" value={userData.firstName} onChange={handleChange} disabled={!isEditing} />
           </div>
 
           <div className="input-box">
-          <label>Postal Code</label>
-          <input type="text" 
-          name="postal code"
-          value={userData.postalCode}
-          onChange={handleChange}/>
+            <label>Last Name</label>
+            <input type="text" name="lastName" value={userData.lastName} onChange={handleChange} disabled={!isEditing} />
           </div>
         </div>
       </form>
 
-      <button> Update Account Information</button>
+      {isEditing ? (
+        <button onClick={handleUpdate}>Save Changes</button>
+      ) : (
+        <button onClick={() => setIsEditing(true)}>Edit</button>
+      )}
     </section>
   );
 };

@@ -20,27 +20,49 @@ const VerifyOTP = () => {
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://coocoo-app.onrender.com/auth/verify-email/", {
-        email,
-        otp,
-      });
+      const response = await axios.post(
+        "https://coocoo-app.onrender.com/auth/verify-email/",
+        {
+          email,
+          otp,
+        }
+      );
       setResponseMessage("Verification successful! You can now log in.");
       setTimeout(() => navigate("/"), 2000);
     } catch (error) {
-        console.error("Full error response:", error.response);
-    
-        if (error.response && error.response.data) {
-          const errorData = error.response.data;
-      
-          // Extract all error messages and join them into a single string
-          const errorMessages = Object.values(errorData)
-            .flat() // Flatten arrays to handle multiple errors
-            .join(" "); // Join messages with a space
-      
-          setResponseMessage(errorMessages);
-        } else {
-          setResponseMessage("Signup failed. Please try again.");
+      console.error("Full error response:", error.response);
+
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+
+        // Extract all error messages and join them into a single string
+        const errorMessages = Object.values(errorData)
+          .flat() // Flatten arrays to handle multiple errors
+          .join(" "); // Join messages with a space
+
+        setResponseMessage(errorMessages);
+      } else {
+        setResponseMessage("Signup failed. Please try again.");
+      }
+    }
+  };
+
+  //Handle OTP verification
+  const handleVerifyOtp = async (e) => {
+    try {
+      const response = await axios.post(
+        "https://coocoo-app.onrender.com/auth/resend-otp/",
+        {
+          email: formData.email,
+          otp,
         }
+      );
+      setResponseMessage("response.data.message");
+      setIsVerified(true);
+    } catch (error) {
+      console.error("Full error response:", error.response);
+
+      setResponseMessage("Verification failed: " + error.response.body);
     }
   };
 
@@ -73,8 +95,14 @@ const VerifyOTP = () => {
           />
         </div>
         <button type="submit">Verify</button>
-        {responseMessage && <div className="response-message">{responseMessage}</div>}
+        {responseMessage && (
+          <div className="response-message">{responseMessage}</div>
+        )}
       </form>
+      <button onClick={handleVerifyOtp}>Resend OTP</button>
+      {responseMessage && (
+        <div className="response-message">{responseMessage}</div>
+      )}
     </div>
   );
 };
