@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "/src/styles/SignUp.css";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -34,7 +35,8 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="admin-login">
+    <div className="login-container">
+      <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
       <h2>Admin Login</h2>
       <form onSubmit={handleLogin}>
         <input

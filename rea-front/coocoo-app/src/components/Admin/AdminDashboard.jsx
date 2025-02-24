@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navigation from "../Navigation";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({});
@@ -8,10 +9,6 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       const token = localStorage.getItem("adminToken");
-      if (!token) {
-        navigate("/admin/login");
-        return;
-      }
 
       try {
         const response = await fetch(
@@ -43,12 +40,14 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="admin-dashboard">
-      <h2>Admin Dashboard</h2>
-      <p>Total Users: {stats.totalUsers || 0}</p>
-      <p>Total Orders: {stats.totalOrders || 0}</p>
-      <p>Active Farms: {stats.activeFarms || 0}</p>
-      <button onClick={handleLogout}>Logout</button>
+    <div className="app-container">
+      <Navigation />
+      <div className="admin-dashboard">
+        <h2>Admin Dashboard</h2>
+        <p>Total Users: {stats.totalUsers || 0}</p>
+        <p>Total Orders: {stats.totalOrders || 0}</p>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     </div>
   );
 };
