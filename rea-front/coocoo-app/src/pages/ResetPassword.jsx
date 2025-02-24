@@ -4,58 +4,56 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
+  console.log("page loading");
   const navigate = useNavigate();
 
   const [responseMessage, setResponseMessage] = useState("");
 
   const [formData, setFormData] = useState({
-    email: "",
-    otp:"",
+    otp: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value});
-    };
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-      // Handle form submission
-  const handleSubmit = async (e) => {
+  // Handle form submission
+  const handleResetPassword = async (e) => {
     e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
       setResponseMessage("Passwords do not match.");
       return;
     }
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
     try {
-      const response = await axios.post("https://coocoo-app.onrender.com/auth/reset-password/", {
-        email: formData.email,
-        otp: formData.otp,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        "https://coocoo-app.onrender.com/auth/reset-password/",
+        {
+          otp: formData.otp,
+          password: formData.password,
+        }
+      );
       setResponseMessage("Reset password successful! You can now log in.");
       setTimeout(() => navigate("/"), 2000);
     } catch (error) {
-        console.error("Full error response:", error.response);
-    
-        if (error.response && error.response.data) {
-          const errorData = error.response.data;
-      
-          // Extract all error messages and join them into a single string
-          const errorMessages = Object.values(errorData)
-            .flat() // Flatten arrays to handle multiple errors
-            .join(" "); // Join messages with a space
-      
-          setResponseMessage(errorMessages);
-        } else {
-          setResponseMessage("Rest password failed. Please try again.");
-        }
+      console.error("Full error response:", error.response);
+
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+
+        // Extract all error messages and join them into a single string
+        const errorMessages = Object.values(errorData)
+          .flat() // Flatten arrays to handle multiple errors
+          .join(" "); // Join messages with a space
+
+        setResponseMessage(errorMessages);
+      } else {
+        setResponseMessage("Reset password failed. Please try again.");
+      }
     }
   };
 
@@ -65,17 +63,6 @@ const ResetPassword = () => {
       <h2>Reset your password</h2>
       <p>Please enter the OTP sent to your email.</p>
       <form onSubmit={handleResetPassword}>
-        <div className="form-group">
-          <label htmlFor="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleEmailChange}
-            required
-          />
-        </div>
         <div className="form-group">
           <label htmlFor="otp">Enter OTP</label>
           <input
@@ -112,11 +99,12 @@ const ResetPassword = () => {
           />
         </div>
         <button type="submit">Reset Password</button>
-        {responseMessage && <div className="response-message">{responseMessage}</div>}
+        {responseMessage && (
+          <div className="response-message">{responseMessage}</div>
+        )}
       </form>
     </div>
   );
 };
-}
 
 export default ResetPassword;
