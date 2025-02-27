@@ -7,7 +7,7 @@ function Navigation() {
       <img src="./Coocoo Nav Logo.svg" />
       <Nav defaultActiveKey="/groupbuying" className="nav-links">
         <Nav.Link href="/groupbuying">Group Buying</Nav.Link>
-        <Nav.Link href="/settings">Settings</Nav.Link>
+        <Nav.Link href="/settings/">Settings</Nav.Link>
       </Nav>
     </div>
   );
