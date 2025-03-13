@@ -81,8 +81,15 @@ button:hover {
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color);
-  margin-left: 10px;
+
 }
+
+.hero-text{
+  width: 70vh;
+  text-align: justify;
+}
+
+
 
 h2 {
   font-size: 3rem;
@@ -350,12 +357,6 @@ input[type="email"] {
     padding: 10px; /* Adjusted padding */
   }
 
-  .hero-section {
-    display: flex;
-    flex-direction: column;
-    margin: 0.5rem;
-    text-align: left;
-  }
 
   .welcome-section img {
     height: 1vh;
