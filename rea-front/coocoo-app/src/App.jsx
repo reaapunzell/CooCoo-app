@@ -20,7 +20,7 @@ import GroupDetails from "./components/Group Buying/GroupDetails.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import AdminLogin from "./components/Admin/AdminLogin.jsx";
-import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true); // Add the loading state
