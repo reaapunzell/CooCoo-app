@@ -34,3 +34,31 @@ class UserLoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return data  # Return data, not the user object
         raise serializers.ValidationError("Incorrect credentials or inactive account.")
+
+
+# Admin serializers
+class AdminSignupSerializer(UserSignupSerializer):
+    """Serializer for admin signup, ensures is_staff=True"""
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            password=validated_data['password'],
+            is_staff=True  # Set as staff by default
+        )
+        return user
+
+class AdminLoginSerializer(UserLoginSerializer):
+    """Serializer for admin login, ensures user is staff"""
+    def validate(self, data):
+        email = data.get('email')
+        password = data.get('password')
+        user = authenticate(email=email, password=password)
+        if user and user.is_active:
+            if not user.is_staff:
+                raise serializers.ValidationError("This account is not an admin.")
+            return data
+        raise serializers.ValidationError("Incorrect credentials or inactive account.")
+
+

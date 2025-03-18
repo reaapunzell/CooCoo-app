@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "authentication",
     "groups",
+    "admin_app",
 ]
 
 CORS_ALLOWED_ORIGINS = [
