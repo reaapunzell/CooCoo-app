@@ -81,7 +81,11 @@ button:hover {
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color);
-  margin-left: 10px;
+}
+
+.hero-text {
+  width: 70vh;
+  text-align: justify;
 }
 
 h2 {
