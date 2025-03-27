@@ -356,9 +356,13 @@ input[type="email"] {
     text-align: center;
   }
 
+  .hero-text {
+    font-size: 1/2rem;
+    width: 20rem;
+  }
   .welcome-section img {
     height: 1vh;
-    width: 90%;
+    width: 1vh;
   }
 
   .welcome-section-2 {
