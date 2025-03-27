@@ -15,7 +15,7 @@ body {
   font-family: Arimo, sans-serif;
 
   background-color: var(--background-color-light);
-  
+
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -149,7 +149,6 @@ p {
   max-width: 800px;
   width: 100%;
   margin-top: 4%;
-  
 }
 
 .contact-form-container button {
@@ -169,7 +168,6 @@ label {
   color: #333;
 }
 
-
 .contact-form-container input,
 .contact-form-container textarea {
   width: 100%;
@@ -177,11 +175,8 @@ label {
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 16px;
-  box-sizing: border-box; 
- 
+  box-sizing: border-box;
 }
-
-
 
 .error-message {
   color: red;
@@ -195,7 +190,7 @@ label {
   border: none;
   padding: 0.75rem;
   border-radius: 4px;
-  
+
   cursor: pointer;
   width: 100%;
   transition: background-color 0.3s;
@@ -309,7 +304,7 @@ input[type="email"] {
   height: 50vh;
 }
 
-@media screen  and (max-width: 500px) {
+@media screen and (max-width: 500px) {
   body {
     background-color: white;
     font-size: 12px; /* Adjusted font size */
@@ -354,7 +349,7 @@ input[type="email"] {
     display: flex;
     flex-direction: column;
     margin: 0.5rem;
-    text-align: left;
+    text-align: center;
   }
 
   .welcome-section img {
@@ -368,27 +363,26 @@ input[type="email"] {
   }
 
   .getintouch-form {
-
     flex-direction: column;
     font-size: 1rem;
   }
 
-  .getintouch-text{
-    flex-direction:column;
+  .getintouch-text {
+    flex-direction: column;
     justify-content: center;
     margin: 0px;
-    
   }
 
-  .getintouch-text img{
+  .getintouch-text img {
     max-height: 40vh;
   }
 
-  .form-group{
+  .form-group {
     font-size: 1rem;
   }
 
-  .form-group input, .form-group textarea {
+  .form-group input,
+  .form-group textarea {
     font-size: 1rem;
   }
 
@@ -403,8 +397,6 @@ input[type="email"] {
     margin: 0px;
     font-size: 1rem;
   }
-
-  
 }
 
 @media screen and (max-width: 1024px) {
@@ -457,63 +449,57 @@ input[type="email"] {
     flex-direction: column;
   }
 
-  
-
   .getintouch-form {
-
     flex-direction: column;
     font-size: 1rem;
   }
 
-  .getintouch-text{
-    flex-direction:column;
+  .getintouch-text {
+    flex-direction: column;
     justify-content: center;
     margin: 0px;
-    
   }
 
-  .getintouch-text img{
+  .getintouch-text img {
     max-height: 40vh;
   }
 
-  .form-group{
+  .form-group {
     font-size: 1rem;
   }
 
-  .form-group input, .form-group textarea {
+  .form-group input,
+  .form-group textarea {
     font-size: 1rem;
   }
-
 }
 
 @media (prefers-color-scheme: dark) {
-    body {
-      background-color: var(--background-color-dark);
-      color: var(--text-color-dark);
-    }
-  
-    button {
-      background-color: var(--background-color-dark);
-      color: var(--text-color-dark);
-    }
-  
-    .navigation-bar {
-      background-color: var(--background-color-dark);
-      color: var(--text-color-dark);
-    }
-  
-    .navigation-bar a {
-      color: var(--text-color-dark);
-    }
-  
-    footer {
-      background-color: var(--background-color-dark);
-      color: var(--text-color-dark);
-    }
-  
-    footer ul li a {
-      color: var(--text-color-dark);
-    }
+  body {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
   }
 
-  
+  button {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+  }
+
+  .navigation-bar {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+  }
+
+  .navigation-bar a {
+    color: var(--text-color-dark);
+  }
+
+  footer {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+  }
+
+  footer ul li a {
+    color: var(--text-color-dark);
+  }
+}
