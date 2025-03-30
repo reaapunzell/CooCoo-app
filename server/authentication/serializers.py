@@ -35,6 +35,10 @@ class UserLoginSerializer(serializers.Serializer):
             return data  # Return data, not the user object
         raise serializers.ValidationError("Incorrect credentials or inactive account.")
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'is_active', 'is_staff')
 
 # Admin serializers
 class AdminSignupSerializer(UserSignupSerializer):

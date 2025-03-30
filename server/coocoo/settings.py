@@ -15,6 +15,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',') + [
     "http://coocoo-app.onrender.com",
     "https://coocoo-app.onrender.com",
     "https://coocoo-app.onrender.com/swagger/",
+    "localhost",
+    "127.0.0.1",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -2,10 +2,11 @@ from rest_framework.views import APIView
 from django.utils.timezone import now
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import serializers
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-from .serializers import UserSignupSerializer,UserLoginSerializer, AdminSignupSerializer, AdminLoginSerializer
+from .serializers import UserSignupSerializer,UserLoginSerializer, AdminSignupSerializer, AdminLoginSerializer,UserProfileSerializer
 from .utils import generate_otp, send_otp_email
 from drf_yasg import openapi
 from .models import User
@@ -131,6 +132,10 @@ class LoginView(APIView):
             return Response({"error": "Invalid credentials or inactive account."}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'is_active', 'is_staff')
 
 # Admin views
 class AdminSignupView(APIView):
