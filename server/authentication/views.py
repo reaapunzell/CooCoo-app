@@ -129,7 +129,7 @@ class LoginView(APIView):
                         'refresh_token': tokens['refresh']
                     }, status=status.HTTP_200_OK)
             return Response({"error": "Invalid credentials or inactive account."}, status=status.HTTP_400_BAD_REQUEST)
-return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Admin views

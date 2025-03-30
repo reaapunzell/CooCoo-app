@@ -12,7 +12,7 @@ urlpatterns = [
     # Admin endpoints
     path('admin-signup/',AdminSignupView.as_view(), name='admin_signup'),
     path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
-    path('admin-verify-otp/', views.AdminVerifyEmailOTPView.as_view(), name='admin_verify_otp'),
+    path('admin-verify-otp/',AdminVerifyEmailOTPView.as_view(), name='admin_verify_otp'),
 
 ]
 
