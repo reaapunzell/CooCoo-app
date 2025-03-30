@@ -281,7 +281,7 @@ class ResendOTPView(BaseAuthView):
                 )
 
             # Generate secure OTP
-            user.otp = secrets.choice('0123456789') 4  # 4-digit OTP
+            user.otp = secrets.choice('0123456789')   # 4-digit OTP
             user.otp_created_at = timezone.now()
             user.otp_attempts = 0
             user.save()
