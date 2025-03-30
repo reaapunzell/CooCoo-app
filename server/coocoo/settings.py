@@ -74,11 +74,12 @@ WSGI_APPLICATION = "coocoo.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
+        default=config('DATABASE_URL', default=None),  # Use decouple's config
         conn_max_age=600,
         ssl_require=True
     )
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
