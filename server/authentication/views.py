@@ -1,7 +1,9 @@
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, exceptions
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.utils import timezone
@@ -21,6 +23,24 @@ from .utils import generate_otp, send_otp_email
 from .models import User
 
 logger = logging.getLogger(__name__)
+
+# Common Swagger schemas
+email_otp_schema = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'email': openapi.Schema(type=openapi.TYPE_STRING, format='email'),
+        'otp': openapi.Schema(type=openapi.TYPE_STRING, max_length=6)
+    },
+    required=['email', 'otp']
+)
+
+email_schema = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'email': openapi.Schema(type=openapi.TYPE_STRING, format='email')
+    },
+    required=['email']
+)
 
 class BaseAuthView(APIView):
     """Base class for authentication-related views"""
@@ -77,6 +97,37 @@ class BaseSignupView(BaseAuthView):
 class UserSignupView(BaseSignupView):
     """Handle regular user registration"""
     
+    @swagger_auto_schema(
+        operation_description="Register a new user account",
+        request_body=UserSignupSerializer,
+        responses={
+            201: openapi.Response(
+                'Registration successful',
+                examples={
+                    'application/json': {
+                        "detail": "Registration successful. Please verify your email."
+                    }
+                }
+            ),
+            400: openapi.Response(
+                'Validation Error',
+                examples={
+                    'application/json': {
+                        "email": ["This field is required."],
+                        "password": ["This field is required."]
+                    }
+                }
+            ),
+            500: openapi.Response(
+                'Server Error',
+                examples={
+                    'application/json': {
+                        "detail": "Registration failed. Please try again."
+                    }
+                }
+            )
+        }
+    )
     def post(self, request):
         serializer = UserSignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -96,9 +147,51 @@ class UserSignupView(BaseSignupView):
             )
 
 class AdminSignupView(BaseSignupView):
+    permission_classes = [AllowAny]
+
     """Handle admin registration (requires existing admin privileges)"""
     permission_classes = [IsAuthenticated, IsAdminUser]
 
+    @swagger_auto_schema(
+        operation_description="Register a new admin account (requires admin privileges)",
+        request_body=AdminSignupSerializer,
+        security=[{'Bearer': []}],
+        responses={
+            201: openapi.Response(
+                'Admin registration successful',
+                examples={
+                    'application/json': {
+                        "detail": "Admin registration successful. Please verify your email."
+                    }
+                }
+            ),
+            400: openapi.Response(
+                'Validation Error',
+                examples={
+                    'application/json': {
+                        "email": ["This field is required."],
+                        "password": ["This field is required."]
+                    }
+                }
+            ),
+            403: openapi.Response(
+                'Forbidden',
+                examples={
+                    'application/json': {
+                        "detail": "You do not have permission to perform this action."
+                    }
+                }
+            ),
+            500: openapi.Response(
+                'Server Error',
+                examples={
+                    'application/json': {
+                        "detail": "Admin registration failed. Please try again."
+                    }
+                }
+            )
+        }
+    )
     def post(self, request):
         serializer = AdminSignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -122,6 +215,35 @@ class BaseVerifyEmailView(BaseAuthView):
     otp_validity = timedelta(minutes=5)
     max_otp_attempts = 3
 
+    @swagger_auto_schema(
+        request_body=email_otp_schema,
+        responses={
+            200: openapi.Response(
+                'Verification successful',
+                examples={
+                    'application/json': {
+                        "detail": "Email verified successfully"
+                    }
+                }
+            ),
+            400: openapi.Response(
+                'Validation Error',
+                examples={
+                    'application/json': {
+                        "detail": "Invalid OTP"
+                    }
+                }
+            ),
+            404: openapi.Response(
+                'Not Found',
+                examples={
+                    'application/json': {
+                        "detail": "User not found"
+                    }
+                }
+            )
+        }
+    )
     def post(self, request):
         email = request.data.get('email')
         otp = request.data.get('otp')
@@ -137,14 +259,12 @@ class BaseVerifyEmailView(BaseAuthView):
         except User.DoesNotExist:
             raise exceptions.NotFound({'detail': 'User not found'})
 
-        # Check OTP attempts
         if user.otp_attempts >= self.max_otp_attempts:
             raise exceptions.PermissionDenied(
                 {'detail': 'Maximum OTP attempts exceeded. Please request a new OTP.'},
                 code='max_attempts_exceeded'
             )
 
-        # Verify OTP
         if user.otp != otp:
             user.otp_attempts += 1
             user.save(update_fields=['otp_attempts'])
@@ -153,14 +273,12 @@ class BaseVerifyEmailView(BaseAuthView):
                 code='invalid_otp'
             )
 
-        # Check expiration
         if timezone.now() - user.otp_created_at > self.otp_validity:
             raise exceptions.ValidationError(
                 {'detail': 'OTP has expired'},
                 code='expired_otp'
             )
 
-        # Update user status
         user.email_verified = True
         user.otp = None
         user.otp_attempts = 0
@@ -177,6 +295,27 @@ class VerifyEmailView(BaseVerifyEmailView):
 class AdminVerifyEmailView(BaseVerifyEmailView):
     """Handle email verification for admin users"""
     
+    @swagger_auto_schema(
+        request_body=email_otp_schema,
+        responses={
+            200: openapi.Response(
+                'Verification successful',
+                examples={
+                    'application/json': {
+                        "detail": "Admin email verified successfully"
+                    }
+                }
+            ),
+            403: openapi.Response(
+                'Forbidden',
+                examples={
+                    'application/json': {
+                        "detail": "Admin verification failed"
+                    }
+                }
+            )
+        }
+    )
     def post(self, request):
         response = super().post(request)
         user = User.objects.get(email=request.data['email'])
@@ -192,7 +331,6 @@ class BaseLoginView(BaseAuthView, TokenMixin):
     """Base class for authentication"""
     
     def validate_user(self, user):
-        """Common validation for all users"""
         if not user.email_verified:
             raise exceptions.PermissionDenied(
                 {'detail': 'Email not verified'},
@@ -206,7 +344,6 @@ class BaseLoginView(BaseAuthView, TokenMixin):
             )
 
     def create_login_response(self, user):
-        """Create standardized login response"""
         tokens = self.get_tokens_for_user(user)
         return Response({
             'detail': 'Login successful',
@@ -220,6 +357,33 @@ class BaseLoginView(BaseAuthView, TokenMixin):
 class UserLoginView(BaseLoginView):
     """Handle user authentication"""
     
+    @swagger_auto_schema(
+        operation_description="Authenticate regular user",
+        request_body=UserLoginSerializer,
+        responses={
+            200: openapi.Response(
+                'Login successful',
+                examples={
+                    'application/json': {
+                        "detail": "Login successful",
+                        "user_id": 1,
+                        "access_token": "eyJhbGciOi...",
+                        "access_expires": 900,
+                        "refresh_token": "eyJhbGciOi...",
+                        "refresh_expires": 86400
+                    }
+                }
+            ),
+            401: openapi.Response(
+                'Unauthorized',
+                examples={
+                    'application/json': {
+                        "detail": "Invalid credentials"
+                    }
+                }
+            )
+        }
+    )
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -242,6 +406,33 @@ class UserLoginView(BaseLoginView):
 class AdminLoginView(BaseLoginView):
     """Handle admin authentication"""
     
+    @swagger_auto_schema(
+        operation_description="Authenticate admin user",
+        request_body=AdminLoginSerializer,
+        responses={
+            200: openapi.Response(
+                'Login successful',
+                examples={
+                    'application/json': {
+                        "detail": "Admin login successful",
+                        "user_id": 1,
+                        "access_token": "eyJhbGciOi...",
+                        "access_expires": 900,
+                        "refresh_token": "eyJhbGciOi...",
+                        "refresh_expires": 86400
+                    }
+                }
+            ),
+            401: openapi.Response(
+                'Unauthorized',
+                examples={
+                    'application/json': {
+                        "detail": "Invalid admin credentials"
+                    }
+                }
+            )
+        }
+    )
     def post(self, request):
         serializer = AdminLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -264,6 +455,36 @@ class AdminLoginView(BaseLoginView):
 class ResendOTPView(BaseAuthView):
     """Handle OTP resend requests"""
     
+    @swagger_auto_schema(
+        operation_description="Resend OTP to user's email",
+        request_body=email_schema,
+        responses={
+            200: openapi.Response(
+                'OTP resent',
+                examples={
+                    'application/json': {
+                        "detail": "New OTP sent successfully"
+                    }
+                }
+            ),
+            400: openapi.Response(
+                'Bad Request',
+                examples={
+                    'application/json': {
+                        "detail": "Email is already verified"
+                    }
+                }
+            ),
+            404: openapi.Response(
+                'Not Found',
+                examples={
+                    'application/json': {
+                        "detail": "User not found"
+                    }
+                }
+            )
+        }
+    )
     def post(self, request):
         email = request.data.get('email')
         if not email:
@@ -280,8 +501,7 @@ class ResendOTPView(BaseAuthView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            # Generate secure OTP
-            user.otp = secrets.choice('0123456789')   # 4-digit OTP
+            user.otp = secrets.choice('0123456789')
             user.otp_created_at = timezone.now()
             user.otp_attempts = 0
             user.save()
@@ -304,10 +524,47 @@ class UserProfileView(APIView):
     """Handle user profile management"""
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        operation_description="Get current user profile",
+        responses={
+            200: UserProfileSerializer(),
+            401: openapi.Response(
+                'Unauthorized',
+                examples={
+                    'application/json': {
+                        "detail": "Authentication credentials were not provided."
+                    }
+                }
+            )
+        }
+    )
     def get(self, request):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        operation_description="Update user profile",
+        request_body=UserProfileSerializer,
+        responses={
+            200: UserProfileSerializer(),
+            400: openapi.Response(
+                'Validation Error',
+                examples={
+                    'application/json': {
+                        "first_name": ["This field is required."]
+                    }
+                }
+            ),
+            401: openapi.Response(
+                'Unauthorized',
+                examples={
+                    'application/json': {
+                        "detail": "Authentication credentials were not provided."
+                    }
+                }
+            )
+        }
+    )
     def patch(self, request):
         serializer = UserProfileSerializer(
             request.user,

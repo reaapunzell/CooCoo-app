@@ -6,6 +6,12 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 import secrets
 
+# Add this validator function at the top
+def validate_non_empty(value):
+    if value.strip() == '':
+        raise ValidationError(_("This field cannot be empty."))
+    return value
+
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password=None, **extra_fields):
         """
@@ -90,12 +96,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(
         _('first name'),
         max_length=30,
-        validators=[lambda v: v.strip() != '']
+        validators=[validate_non_empty]  # Changed to named function
     )
     last_name = models.CharField(
         _('last name'),
         max_length=30,
-        validators=[lambda v: v.strip() != '']
+        validators=[validate_non_empty]  # Changed to named function
     )
     is_active = models.BooleanField(
         _('active'),
