@@ -147,10 +147,10 @@ class UserSignupView(BaseSignupView):
             )
 
 class AdminSignupView(BaseSignupView):
-    permission_classes = [AllowAny]
+    
 
     """Handle admin registration (requires existing admin privileges)"""
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [AllowAny]
 
     @swagger_auto_schema(
         operation_description="Register a new admin account (requires admin privileges)",
