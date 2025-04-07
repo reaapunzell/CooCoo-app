@@ -4,7 +4,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-# Define the schema view for Swagger UI
+# Swagger config
 schema_view = get_schema_view(
     openapi.Info(
         title="CooCoo API",
@@ -15,15 +15,15 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
-    # Define schemes at the schema level
-    url="https://coocoo-app.onrender.com",  # Use the Render URL
+    url="https://coocoo-app.onrender.com/",
 )
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
-    path('auth/', include('authentication.urls')),  # Authentication-related URLs
-    path('api/', include('groups.urls')),  #groups
-    path('api/', include('notifications.urls')), # notifications
+    path("admin/", admin.site.urls),  # 🛠️ Django admin stays here
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="swagger-ui"),
     
+    # 🚀 Your app endpoints
+    path("auth/", include("authentication.urls")),
+    path("api/", include("groups.urls")),
+    path("api/admin/", include("admin_app.urls")),  # ✅ Move admin_app here
 ]
