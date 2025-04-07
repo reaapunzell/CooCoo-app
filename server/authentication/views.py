@@ -1,11 +1,14 @@
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, exceptions
+from rest_framework import status, exceptions,  throttling
+from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+from django.utils.timezone import now
 from django.utils import timezone
 from django.conf import settings
 from datetime import timedelta
@@ -19,10 +22,12 @@ from .serializers import (
     AdminLoginSerializer,
     UserProfileSerializer
 )
-from .utils import generate_otp, send_otp_email
+from .utils import generate_otp, send_otp_email, send_password_change_email, send_password_reset_otp, send_password_reset_success_email
 from .models import User
 
 logger = logging.getLogger(__name__)
+
+User = get_user_model()
 
 # Common Swagger schemas
 email_otp_schema = openapi.Schema(
@@ -574,3 +579,173 @@ class UserProfileView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'Authorization',
+                openapi.IN_HEADER,
+                description="Bearer token for authentication",
+                type=openapi.TYPE_STRING
+            )
+        ],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'refresh_token': openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="User's refresh token"
+                )
+            },
+            required=['refresh_token']
+        )
+    )
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.data.get("refresh_token")
+        if not refresh_token:
+            return Response(
+                {"error": "Refresh token is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(
+                {"message": "Logout successful."},
+                status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return Response(
+                {"error": "Invalid token or already blacklisted."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'Authorization',
+                openapi.IN_HEADER,
+                description="Bearer token for authentication",
+                type=openapi.TYPE_STRING
+            )
+        ],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'old_password': openapi.Schema(type=openapi.TYPE_STRING, description="Current password"),
+                'new_password': openapi.Schema(type=openapi.TYPE_STRING, description="New password"),
+            },
+            required=['old_password', 'new_password']
+        )
+    )
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+
+        logger.info(f"[ChangePassword] Password change requested by user {user.email}")
+
+        if not check_password(old_password, user.password):
+            logger.warning(f"[ChangePassword] Incorrect old password for user {user.email}")
+            return Response({"error": "Old password is incorrect."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user.set_password(new_password)
+            user.save()
+
+            logger.info(f"[ChangePassword] Password changed successfully for user {user.email}")
+
+            # Send notification email
+            send_password_change_email(user)
+
+            return Response({"message": "Password changed successfully."}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.error(f"[ChangePassword] Error changing password for user {user.email}: {str(e)}")
+            return Response({"error": "Something went wrong while changing password."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ForgotPasswordThrottle(throttling.UserRateThrottle):
+    rate = '3/hour'
+
+
+class ForgotPasswordView(APIView):
+    throttle_classes = [ForgotPasswordThrottle]
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'email': openapi.Schema(type=openapi.TYPE_STRING, description="User email"),
+        },
+        required=['email']
+    ))
+    def post(self, request):
+        email = request.data.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+            otp = generate_otp()
+            user.otp = otp
+            user.otp_created_at = now()
+            user.save()
+            send_password_reset_otp(user.email, otp)
+
+            logger.info(f"OTP sent for password reset to {email}")
+            return Response({"message": "OTP sent to email for password reset."}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            logger.warning(f"Password reset requested for non-existent user with email: {email}")
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ResetPasswordView(APIView):
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'email': openapi.Schema(type=openapi.TYPE_STRING, description="User email"),
+            'otp': openapi.Schema(type=openapi.TYPE_STRING, description="OTP received via email"),
+            'new_password': openapi.Schema(type=openapi.TYPE_STRING, description="New password"),
+        },
+        required=['email', 'otp', 'new_password']
+    ))
+    def post(self, request):
+        email = request.data.get("email")
+        otp = request.data.get("otp")
+        new_password = request.data.get("new_password")
+
+        try:
+            user = User.objects.get(email=email)
+            if not user.otp or not user.otp_created_at:
+                logger.warning(f"OTP missing or not generated for {email}")
+                return Response({"error": "No OTP found for this user."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if user.otp != otp:
+                logger.warning(f"Invalid OTP attempt for {email}")
+                return Response({"error": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if now() - user.otp_created_at > timedelta(minutes=5):
+                logger.warning(f"Expired OTP attempt for {email}")
+                return Response({"error": "OTP has expired."}, status=status.HTTP_400_BAD_REQUEST)
+
+            user.set_password(new_password)
+            user.otp = None
+            user.otp_created_at = None
+            user.save()
+
+            send_password_reset_success_email(user.email)
+
+            logger.info(f"Password reset successful for {email}")
+            return Response({"message": "Password reset successful."}, status=status.HTTP_200_OK)
+
+        except User.DoesNotExist:
+            logger.error(f"Password reset failed: User not found for email {email}")
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
