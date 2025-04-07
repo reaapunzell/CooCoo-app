@@ -748,4 +748,3 @@ class ResetPasswordView(APIView):
             logger.error(f"Password reset failed: User not found for email {email}")
             return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
-

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 
 import User from "../model/User.js"
 import tokenValidation from '../middlewares/tokenValidation.js'
+import generateVerificationToken from '../middlewares/generateVerificationToken.js'
 
 const SALT = Number(process.env.SALT)
 const JWT_KEY = process.env.JWT_KEY
@@ -87,6 +88,39 @@ router.get("/:username", tokenValidation, async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
+
+router.get("/verify-email", async (req, res) => {
+    const { token } = req.query;
+
+    try{
+        const decoded = jwt.verify(token,process.env.JWT_KEY);
+        const email = decoded.email;
+
+        await User.updateOne({email}, {emailVerified: true});
+
+        res.send("email verified successfully")
+    }catch (error) {
+        res.status(400).send("invalid or expired token");
+    }
+});
+
+router.post("/auth/signup", async (req, res) => {
+    const { email, first_name, last_name, password } = req.body;
+  
+    try {
+      const user = new User({ email, first_name, last_name, password });
+      await user.save();
+  
+      const token = generateVerificationToken(email);
+      await sendVerificationEmail(email, token);
+  
+      res.status(200).json({ message: "User registered. Verification email sent." });
+    } catch (error) {
+      res.status(500).json({ message: "Error creating user: " + error.message });
+    }
+  });
+  
+
 
 
 export default router

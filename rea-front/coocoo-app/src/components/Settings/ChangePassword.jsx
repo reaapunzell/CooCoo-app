@@ -17,14 +17,15 @@ const ChangePassword = () => {
     }
 
     try {
-      const response = await fetch("", {
+      const response = await fetch("https://coocoo-app.onrender.com/auth/change-password/", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          currentPassword,
-          newPassword,
+          old_password: currentPassword,
+          new_password: newPassword,
         }),
       });
 
@@ -35,6 +36,9 @@ const ChangePassword = () => {
 
       setMessage("Password updated successfully");
       setError("");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
     } catch (err) {
       setMessage("");
       setError(err.message);
@@ -78,10 +82,10 @@ const ChangePassword = () => {
             />
           </div>
         </div>
+        <button className="update-pass-btn" type="submit">
+          Update Password
+        </button>
       </form>
-      <button className="update-pass-btn" type="submit">
-        Update Password
-      </button>
       {message && <p className="success-msg">{message}</p>}
       {error && <p className="error-msg">{error}</p>}
     </section>

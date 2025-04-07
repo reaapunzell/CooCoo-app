@@ -1,83 +1,155 @@
-import React, { useState } from "react";
-import axios from "axios";
-import "../styles/SignUp.css"
+import React, { useState, useEffect } from "react";
+import "../styles/SignUp.css";
 import { useNavigate } from "react-router-dom";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showResendOTP, setShowResendOTP] = useState(false);
   const navigate = useNavigate();
-  const [token, setToken] = useState("")
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try{
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://coocoo-app.onrender.com/auth/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
 
-    
-   const response = await fetch ("http://localhost:8000/auth/login/", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
+      const data = await response.json();
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Login failed");
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      localStorage.setItem("token", data.token);
+      navigate(`/groupbuying`);
+    } catch (error) {
+      console.error("Error response:", error.message);
+
+      if (error.message.includes("Email not verified")) {
+        setErrorMessage("Email not verified. Please verify your email.");
+        setShowResendOTP(true);
+      } else {
+        setErrorMessage(error.message);
+      }
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const data = await response.json();
-    const {token} = data;
+  const handleResendOTP = async () => {
+    try {
+      const response = await fetch(
+        "https://coocoo-app.onrender.com/auth/resend-otp/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: formData.email }),
+        }
+      );
 
-    //save token to localstorage
-    localStorage.setItem("token", token)
+      if (!response.ok) {
+        throw new Error("Failed to resend OTP. Please try again.");
+      }
 
-    navigate(`/dashboard/${username}`);
-  } catch(error){
-    console.error("login error", error);
-    setError(error.message);
-  }
-};
+      setShowResendOTP(false);
+      navigate("/verify-email", { state: { email: formData.email } });
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
 
-      //navigate to signup page
-      const signUpNav = () => {
-        navigate("/signup")
-      };
-      
+  const signUpNav = () => {
+    navigate("/signup");
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <div className="login-container">
-        <img src="/CooCoo Main logo.svg"/>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        {error && <div className="error-message">{error}</div>}
+      {loading ? (
+        <LoadingAnimation />
+      ) : (
+        <>
+          <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
+          <h1>Login</h1>
+          <form onSubmit={handleLogin}>
+            {errorMessage && (
+              <div className="error-message">{errorMessage}</div>
+            )}
 
-        <label htmlFor="username">Username</label>
-        <input
-          type="string"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+            {showResendOTP && (
+              <button
+                className="resend-otp-btn"
+                type="button"
+                onClick={handleResendOTP}
+              >
+                Resend OTP Verification
+              </button>
+            )}
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
-        <button  className="login-btn" type='submit' onClick={handleLogin}>Login</button>
-      </form>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
 
-      <div className="signup-footer">
-        <span> Don't have an account? </span>
-        <button className="signup-btn" type='button' onClick={signUpNav}> Sign Up</button>
-      </div>
+            <div className="forgot-password">
+              <a href="/forgot-password">Forgot your Password?</a>
+            </div>
+
+            <button className="login-btn" type="submit">
+              Login
+            </button>
+          </form>
+
+          <div className="signup-footer">
+            <span> Don't have an account? </span>
+            <button className="signup-btn" type="button" onClick={signUpNav}>
+              Sign Up
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
