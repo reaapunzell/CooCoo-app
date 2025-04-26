@@ -1,26 +1,134 @@
-import random
+import logging
+import secrets
+
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
-from django.utils.timezone import now
-from datetime import timedelta
+from django.core.validators import validate_email
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.utils import timezone
 
-def generate_otp():
-    """Generate a 4-digit random OTP."""
-    return str(random.randint(1000, 9999))
+logger = logging.getLogger(__name__)
 
-def send_otp_email(email, otp):
-    """Send OTP to the user's email for email verification."""
-    subject = "Your Email Verification OTP"
-    message = f"Your OTP for email verification is {otp}. It is valid for 5 minutes."
-    send_mail(subject, message, 'your_email@gmail.com', [email])
 
-def send_password_reset_otp(email, otp):
-    """Send OTP to the user's email for password reset."""
-    subject = "Your Password Reset OTP"
-    message = f"Your OTP for password reset is {otp}. It is valid for 5 minutes."
-    send_mail(subject, message, 'your_email@gmail.com', [email])
+def generate_otp(length=6):
+    """
+    Generate a cryptographically secure OTP.
+    """
+    return ''.join(secrets.choice('0123456789') for _ in range(length))
 
-def is_otp_valid(user, otp):
-    """Check if the provided OTP is valid within 5 minutes."""
-    otp_validity_duration = timedelta(minutes=5)
-    return user.otp == otp and now() - user.otp_created_at <= otp_validity_duration
 
+def send_otp_email(email, otp, otp_expiry_minutes=15):
+    """
+    Send an OTP email for verification.
+    """
+    try:
+        validate_email(email)
+        context = {
+            'otp': otp,
+            'app_name': settings.APP_NAME,
+            'expiry_minutes': otp_expiry_minutes,
+            'support_email': settings.SUPPORT_EMAIL,
+        }
+
+        html_message = render_to_string('emails/otp_email.html', context)
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject=f"{settings.APP_NAME} Email Verification",
+            message=plain_message,
+            html_message=html_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            fail_silently=False,
+        )
+    except Exception as e:
+        logger.error(f"Failed to send OTP email: {str(e)}")
+        raise
+
+
+def send_password_change_email(user):
+    """
+    Notify the user that their password was changed.
+    """
+    try:
+        context = {
+            'user': user,
+            'timestamp': timezone.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'app_name': settings.APP_NAME,
+            'support_email': settings.SUPPORT_EMAIL,
+        }
+
+        html_message = render_to_string('emails/password_changed.html', context)
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject=f"{settings.APP_NAME} Password Change Notification",
+            message=plain_message,
+            html_message=html_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+    except Exception as e:
+        logger.error(f"Failed to send password change email: {str(e)}")
+        raise
+
+
+def send_password_reset_otp(email, otp, otp_expiry_minutes=5):
+    """
+    Send an OTP to reset the user's password.
+    """
+    try:
+        validate_email(email)
+        context = {
+            'otp': otp,
+            'app_name': settings.APP_NAME,
+            'expiry_minutes': otp_expiry_minutes,
+            'support_email': settings.SUPPORT_EMAIL,
+        }
+
+        html_message = render_to_string('emails/password_reset_otp.html', context)
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject=f"{settings.APP_NAME} Password Reset OTP",
+            message=plain_message,
+            html_message=html_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            fail_silently=False,
+        )
+        logger.info(f"Password reset OTP sent to {email}")
+    except Exception as e:
+        logger.error(f"Failed to send OTP email to {email}: {str(e)}")
+        raise
+
+
+def send_password_reset_success_email(email):
+    """
+    Confirm to the user that their password has been successfully reset.
+    """
+    try:
+        validate_email(email)
+        context = {
+            'app_name': settings.APP_NAME,
+            'support_email': settings.SUPPORT_EMAIL,
+        }
+
+        html_message = render_to_string('emails/password_reset_success.html', context)
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject=f"{settings.APP_NAME} Password Successfully Reset",
+            message=plain_message,
+            html_message=html_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            fail_silently=False,
+        )
+        logger.info(f"Password reset success email sent to {email}")
+    except Exception as e:
+        logger.error(f"Failed to send password reset success email to {email}: {str(e)}")
+        raise

@@ -2,7 +2,7 @@ from pathlib import Path
 from datetime import timedelta
 import dj_database_url
 import os
-from decouple import config  # Ensure you have this import
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "authentication",
     "groups",
-    "notifications",
+    "admin_app",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -57,7 +57,7 @@ ROOT_URLCONF = "coocoo.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -72,14 +72,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "coocoo.wsgi.application"
 
+# Corrected DATABASES section
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL', default=None),  # Use decouple's config
+        default=config('DATABASE_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3')),
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=config('DB_SSL', default=False, cast=bool)
     )
 }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -96,16 +96,7 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
 }
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header',
-        },
-    },
-    'USE_SESSION_AUTH': False,
-}
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config('EMAIL_HOST')
@@ -115,14 +106,33 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
 STATIC_URL = "static/"
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Custom Settings
+APP_NAME = "CooCoo App"
+SUPPORT_EMAIL = "support@coocoo.app"
+OTP_EXPIRY_MINUTES = 15
+MAX_OTP_ATTEMPTS = 5
+#swagger
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+    'DEFAULT_INFO': 'coocoo.urls.swagger_info',  # Replace 'coocoo' with your project name
+}
+
+REDOC_SETTINGS = {
+    'LAZY_RENDERING': False,
+    'HIDE_HOSTNAME': False,
+}
