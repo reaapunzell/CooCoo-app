@@ -20,8 +20,10 @@ import GroupDetails from "./components/Group Buying/GroupDetails.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import AdminLogin from "./components/Admin/AdminLogin.jsx";
-import AdminDashboard from "./pages/AdminDashboard.jsx"
-import NotFound from "./pages/404.jsx"
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import AdminSignup from "./pages/AdminSignUp.jsx";
+import NotFound from "./pages/404.jsx";
+import AdminVerifiedEmail from "./pages/AdminVerify.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true); // Add the loading state
@@ -70,12 +72,16 @@ function App() {
             <Route path="/settings/*" element={<Settings />} />
             <Route path="/verify-email" element={<VerifyOTP />} />
             <Route path="/group" element={<Group />} />
+            <Route path="/admin/signup" element={<AdminSignup />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route
+              path="/admin/verify-email"
+              element={<AdminVerifiedEmail />}
+            />
 
-                 {/* 404 Catch-All Route */}
-                 <Route path="*" element={<NotFound />} />
-
+            {/* 404 Catch-All Route */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       )}

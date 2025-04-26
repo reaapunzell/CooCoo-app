@@ -3,21 +3,21 @@ import { useNavigate } from "react-router-dom";
 import "../styles/SignUp.css";
 import logo from "/public/CooCoo Main logo.svg";
 
-const VerifiedEmail = () => {
+const AdminVerifiedEmail = () => {
   const navigate = useNavigate();
 
   const loginNav = () => {
-    navigate("/");
+    navigate("/admin/login");
   };
   return (
     <div className="verified-container">
       <img src={logo} alt="" />
       <h2>Email verified</h2>
       <button className="signup-btn" type="button" onClick={loginNav}>
-        Login
+        Admin Login
       </button>
     </div>
   );
 };
 
-export default VerifiedEmail;
+export default AdminVerifiedEmail;
