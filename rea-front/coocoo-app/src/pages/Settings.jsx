@@ -7,6 +7,7 @@ import Personalization from "../components/Settings/Personalisation";
 import SecurityAndPrivacy from "../components/Settings/SecurityAndPrivacy";
 import Navigation from "../components/Navigation";
 import SettingsNav from "../components/Settings/SettingsNav";
+import DeleteAccountButton from "../components/Settings/Logout";
 import "../styles/Settings.css";
 
 const Settings = () => {
@@ -20,7 +21,7 @@ const Settings = () => {
             <Route path="/" element={<AccountForm />} />
             <Route path="changepassword" element={<ChangePassword />} />
             <Route path="personalisation" element={<Personalization />} />
-            <Route path="securityandprivacy" element={<SecurityAndPrivacy />} />
+            <Route path="deleteaccount" element={<DeleteAccountButton />} />
             <Route path="*" element={<h2>Page Not Found</h2>} />
           </Routes>
         </div>
