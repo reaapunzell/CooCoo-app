@@ -8,6 +8,7 @@ function SettingsNav() {
       <Nav>
         <Nav.Link href="/settings">Account</Nav.Link>
         <Nav.Link href="/settings/changepassword">Change Password</Nav.Link>
+        <Nav.Link href="/settings/deleteaccount">Delete Account</Nav.Link>
       </Nav>
     </div>
   );
