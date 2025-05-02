@@ -1,44 +1,70 @@
-*{
-    width: 100%;
+* {
+  width: 100%;
 }
 
-.grid-container{
-    display:grid;
-    grid-template-columns: 1fr 1fr ;
-    grid-template-rows: 1fr 1fr 1fr;
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 }
 
 .weather-component {
-    grid-column: 1/3;
-    grid-row: 1;
+  grid-column: 1/3;
+  grid-row: 1;
 }
-
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @media screen and (max-width: 1024px) {
-    .grid-container {
-        grid-template-columns: auto; /* Single-column layout for tablets */
-        grid-template-rows: auto auto auto; /* Adjust rows to fit content */
-    }
+  .grid-container {
+    grid-template-columns: auto; /* Single-column layout for tablets */
+    grid-template-rows: auto auto auto; /* Adjust rows to fit content */
+  }
 
-    .weather-component {
-        grid-column: 1; /* Span the single column */
-        grid-row: 1; /* Keep it at the top */
-    }
+  .weather-component {
+    grid-column: 1; /* Span the single column */
+    grid-row: 1; /* Keep it at the top */
+  }
 
-    .group-alert-component{
-        grid-column: 1;
-        grid-row: 2;
-        width: 50vh;
-    }
+  .group-alert-component {
+    grid-column: 1;
+    grid-row: 2;
+    width: 50vh;
+  }
 
-    .calendar-component {
-        grid-column: 1; /* Span the single column */
-        grid-row: 3; /* Move below the weather component */
-    }
+  .calendar-component {
+    grid-column: 1; /* Span the single column */
+    grid-row: 3; /* Move below the weather component */
+  }
+}
 
-    
+.dashboard-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.stats-grid,
+.charts-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.stat-box {
+  background: #f4f4f4;
+  padding: 15px;
+  border-radius: 8px;
+  min-width: 150px;
+  font-weight: bold;
+}
+
+.chart-box {
+  background: white;
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
