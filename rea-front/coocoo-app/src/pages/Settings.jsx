@@ -7,7 +7,7 @@ import Personalization from "../components/Settings/Personalisation";
 import SecurityAndPrivacy from "../components/Settings/SecurityAndPrivacy";
 import Navigation from "../components/Navigation";
 import SettingsNav from "../components/Settings/SettingsNav";
-import DeleteAccountButton from "../components/Settings/Logout";
+import DeleteAccountButton from "../components/Settings/DeleteAccount";
 import "../styles/Settings.css";
 
 const Settings = () => {
