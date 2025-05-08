@@ -24,6 +24,8 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import AdminSignup from "./pages/AdminSignUp.jsx";
 import NotFound from "./pages/404.jsx";
 import AdminVerifiedEmail from "./pages/AdminVerify.jsx";
+import ProducProductUploading from "./components/Group Buying/ProductUploading.jsx";
+import ProductUpload from "./components/Group Buying/ProductUploading.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true); // Add the loading state
@@ -75,7 +77,8 @@ function App() {
             <Route path="/admin/signup" element={<AdminSignup />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route
+
+            <Route path="/admin/products" element={<ProductUpload />} />            <Route
               path="/admin/verify-email"
               element={<AdminVerifiedEmail />}
             />
