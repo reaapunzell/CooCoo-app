@@ -37,9 +37,7 @@ const Login = () => {
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed");
-      }
+
 
       localStorage.setItem("token", data.token);
       navigate(`/groupbuying`);

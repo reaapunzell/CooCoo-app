@@ -19,11 +19,11 @@ import InitiateGroup from "./components/Group Buying/InitiateGroup.jsx";
 import GroupDetails from "./components/Group Buying/GroupDetails.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-import AdminLogin from "./components/Admin/AdminLogin.jsx";
+import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import AdminSignup from "./pages/AdminSignUp.jsx";
+import AdminVerifyEmail from "./pages/AdminVerifyEmail.jsx";
 import NotFound from "./pages/404.jsx";
-import AdminVerifiedEmail from "./pages/AdminVerify.jsx";
 import ProducProductUploading from "./components/Group Buying/ProductUploading.jsx";
 import ProductUpload from "./components/Group Buying/ProductUploading.jsx";
 
@@ -80,7 +80,7 @@ function App() {
 
             <Route path="/admin/products" element={<ProductUpload />} />            <Route
               path="/admin/verify-email"
-              element={<AdminVerifiedEmail />}
+              element={<AdminVerifyEmail />}
             />
 
             {/* 404 Catch-All Route */}
