@@ -23,6 +23,8 @@ const Login = () => {
 
     localStorage.setItem("token", guestToken);
     localStorage.setItem("user", JSON.stringify(guestProfile));
+    localStorage.setItem("isGuest", "true");
+
     navigate("/groupbuying");
   }
 

@@ -26,6 +26,7 @@ import AdminVerifyEmail from "./pages/AdminVerifyEmail.jsx";
 import NotFound from "./pages/404.jsx";
 import ProducProductUploading from "./components/Group Buying/ProductUploading.jsx";
 import ProductUpload from "./components/Group Buying/ProductUploading.jsx";
+import Payment from "./components/Group Buying/Payment.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true); // Add the loading state
@@ -77,12 +78,9 @@ function App() {
             <Route path="/admin/signup" element={<AdminSignup />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
-
-            <Route path="/admin/products" element={<ProductUpload />} />            <Route
-              path="/admin/verify-email"
-              element={<AdminVerifyEmail />}
-            />
-
+            <Route path="/admin/products" element={<ProductUpload />} />           
+             <Route path="/admin/verify-email" element={<AdminVerifyEmail />} />
+            <Route path="/payment" element={<Payment />} /> 
             {/* 404 Catch-All Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
