@@ -29,7 +29,7 @@ function App() {
   const [loading, setLoading] = useState(true); // Add the loading state
 
   useEffect(() => {
-    // Simulate a loading delay
+    // Simulate a loading delayfu
     const timer = setTimeout(() => {
       setLoading(false); // After 3 seconds, hide the loading animation
     }, 3000);

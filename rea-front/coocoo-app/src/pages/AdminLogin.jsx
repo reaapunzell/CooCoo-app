@@ -12,13 +12,16 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://coocoo-app.onrender.com/auth/admin-login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://coocoo-app.onrender.com/admin/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Invalid credentials or unauthorized access");
@@ -38,11 +41,21 @@ const AdminLogin = () => {
       <form onSubmit={handleLogin}>
         <div className="input-box">
           <label>Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
         <div className="input-box">
           <label>Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         {error && <p className="error-msg">{error}</p>}
         <button type="submit">Login</button>
