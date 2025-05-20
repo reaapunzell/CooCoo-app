@@ -14,15 +14,19 @@ const ExistingGroups = () => {
   const isGuest = localStorage.getItem("isGuest") === "true";
 
   useEffect(() => {
+
+
     if (!token && !isGuest) {
       setError("User not authenticated. Please log in.");
       return;
     }
 
     if (isGuest) {
+
       setGroups(fakeGroups);
       return;
     }
+
     fetch("https://coocoo-app.onrender.com/api/groups/", {
       method: "GET",
       headers: {
@@ -51,10 +55,16 @@ const ExistingGroups = () => {
   const JoinGroup = async (e) => {
     e.preventDefault();
 
+    if (isGuest) {
+      alert("Demo: You’ve joined the group successfully!");
+      return;
+    }
+
     if (!selectedGroupId) {
       setError("Please select a group before joining.");
       return;
     }
+
 
      const selectedGroup = groups.find((g) => g.id === selectedGroupId);
 
@@ -84,6 +94,7 @@ const ExistingGroups = () => {
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Failed to join group");
+
         }
 
         navigate(`/group/${selectedGroupId}`);
@@ -116,7 +127,9 @@ const ExistingGroups = () => {
           <p>Loading address...</p>
         )}
 
+
         {error && <p className="error-message">{error}</p>}
+
 
         <div id="groups-wrapper">
           {groups.length === 0 ? (
@@ -133,7 +146,6 @@ const ExistingGroups = () => {
             ))
           )}
         </div>
-
         <button className="joingroup-btn" type="button" onClick={JoinGroup}>
           Join Group
         </button>
