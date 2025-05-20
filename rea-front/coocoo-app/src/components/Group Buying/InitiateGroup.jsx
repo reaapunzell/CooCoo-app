@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Onboarding.css"; 
 import Navigation from "../Navigation";
+import Products, {fakeProducts} from "./Products";
 
 const InitiateGroup = () => {
   const navigate = useNavigate();
@@ -14,33 +15,8 @@ const InitiateGroup = () => {
 
   useEffect(() => {
     if (isGuest) {
-      // Fake products for guest mode
-      setProducts([
-        {
-          id: "1",
-          brand: "AgriFeeds",
-          total_price: 1000,
-          price_per_user: 100,
-          users_needed: 10,
-          end_date: "2025-06-30"
-        },
-        {
-          id: "2",
-          brand: "FarmGro",
-          total_price: 1200,
-          price_per_user: 150,
-          users_needed: 8,
-          end_date: "2025-07-15"
-        },
-        {
-          id: "3",
-          brand: "PoultryPlus",
-          total_price: 800,
-          price_per_user: 80,
-          users_needed: 10,
-          end_date: "2025-07-01"
-        },
-      ]);
+      setProducts(fakeProducts);
+      return
     } else {
       // Real product fetch
       fetch("https://coocoo-app.onrender.com/api/products/", {
@@ -116,28 +92,17 @@ const InitiateGroup = () => {
       <Navigation />
       <div className="create-group-container">
         <h2>Create a Group</h2>
-        {isGuest && (
-          <p className="guest-banner">You are viewing a demo as a guest user.</p>
-        )}
+       
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <label>Group Name:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
 
-          <label>Select Product Package:</label>
-          <select
-            value={selectedProductId}
-            onChange={(e) => setSelectedProductId(e.target.value)}
-            required
-          >
-            <option value="">-- Select a Product --</option>
-            {products.map((prod) => (
-              <option key={prod.id} value={prod.id}>
-                {prod.brand} – R{prod.total_price} total, R{prod.price_per_user}/user, 
-                {prod.users_needed} users – Ends {prod.end_date}
-              </option>
-            ))}
-          </select>
+         <Products
+  products={products}
+  selectedProductId={selectedProductId}
+  onSelect={setSelectedProductId}
+/>
 
           <button type="submit">Create Group</button>
         </form>
