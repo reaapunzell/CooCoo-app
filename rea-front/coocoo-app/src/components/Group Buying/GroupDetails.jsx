@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./Onboarding.css";
 import Navigation from "../Navigation";
-import { useNavigate } from "react-router-dom";
 
 const GroupDetails = () => {
   const { id } = useParams();
   const [group, setGroup] = useState(null);
   const [error, setError] = useState("");
+  const [daysLeft, setDaysLeft] = useState(null);
   const token = localStorage.getItem("token");
   const isGuest = localStorage.getItem("isGuest") === "true";
   const navigate = useNavigate();
 
+  // Determine if guest has contributed
+  const guestGroup = JSON.parse(localStorage.getItem("guestGroup"));
+  const guestContributed = guestGroup && localStorage.getItem(`contributed-${guestGroup.id}`) === "true";
+
   useEffect(() => {
     const fetchGroupDetails = async () => {
       if (isGuest) {
-        // Retrieve guest group from localStorage
-        const guestGroup = JSON.parse(localStorage.getItem("guestGroup"));
         if (guestGroup && guestGroup.id === id) {
           setGroup(guestGroup);
         } else {
@@ -49,6 +51,17 @@ const GroupDetails = () => {
     fetchGroupDetails();
   }, [id, token, isGuest]);
 
+  // Countdown logic
+  useEffect(() => {
+    if (group?.expiration_date) {
+      const today = new Date();
+      const expiration = new Date(group.expiration_date);
+      const timeDiff = expiration - today;
+      const remaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      setDaysLeft(remaining > 0 ? remaining : 0);
+    }
+  }, [group]);
+
   if (error) {
     return <p className="error-message">{error}</p>;
   }
@@ -59,10 +72,15 @@ const GroupDetails = () => {
 
   const product = group.product;
 
+  // Adjust contribution count for guest view
+  const contributionCount = isGuest && guestContributed
+    ? group.users_joined + 1
+    : group.users_joined;
+
   const handlePayPartBtn = (e) => {
     e.preventDefault();
     navigate('/payment');
-  }
+  };
 
   return (
     <div className="app-container">
@@ -71,13 +89,19 @@ const GroupDetails = () => {
         <div className="group-header">
           <h3>{group.name}'s Group Purchase</h3>
           <p className="contribution-progress">
-            <strong>{group.users_joined}/{product?.users_needed} Farmers</strong> have contributed
+            <strong>{contributionCount}/{product?.users_needed} Farmers</strong> have contributed
           </p>
-          
         </div>
-<p className="expiry-note">
-            This group purchase is going to expire in <span className="red-text">5 days</span>
-          </p>
+
+        <p className="expiry-note">
+          {daysLeft !== null && (
+            <>
+              This group purchase is going to expire in{" "}
+              <span className="red-text">{daysLeft} {daysLeft === 1 ? "day" : "days"}</span>
+            </>
+          )}
+        </p>
+
         <div className="product-card">
           <div className="product-image-placeholder">📦</div>
           <div className="product-details">
@@ -86,8 +110,24 @@ const GroupDetails = () => {
             <p><strong>R{product?.price_per_user}</strong> as group purchase</p>
           </div>
         </div>
-<div className="pay-part">
-        <button className="pay-part-btn" onClick={handlePayPartBtn} >Pay your part</button>
+
+        <div className="pay-part">
+          {guestContributed ? (
+            <>
+              <div className="success-message">
+                <p className="contributed-message">
+                  You have already contributed to {group.name}'s group purchase.
+                </p>
+              </div>
+              <button className="pay-part-btn" disabled>
+                You have already contributed
+              </button>
+            </>
+          ) : (
+            <button className="pay-part-btn" onClick={handlePayPartBtn}>
+              Pay your part
+            </button>
+          )}
         </div>
       </main>
     </div>

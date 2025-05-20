@@ -55,6 +55,10 @@ const Payment = () => {
 
   const handleCheckout = (e) => {
     e.preventDefault();
+
+    if (isGuest && guestGroup?.id){
+      localStorage.setItem(`contributed-${guestGroup.id}`, "true");
+    }
     alert("Payment successful!");
     navigate(`/group/${guestGroup.id}`);
   };
