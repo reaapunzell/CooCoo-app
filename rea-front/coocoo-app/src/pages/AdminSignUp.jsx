@@ -28,6 +28,12 @@ const AdminSignup = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password.length < 6){
+      setResponseMessage("Password must be at least 6 characters long.");
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setResponseMessage("Passwords do not match.");
       return;
@@ -51,7 +57,7 @@ const AdminSignup = () => {
       );
 
       //Send OTP to email
-      await axios.post("https://coocoo-app.onrender.com/auth/resend-otp/", {
+      await axios.post("https://coocoo-app.onrender.com/auth/admin/verify-email/", {
         email: formData.email,
         otp,
       });
@@ -73,43 +79,15 @@ const AdminSignup = () => {
     } catch (error) {
       console.error("Full error response:", error.response);
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data;
+      setResponseMessage(error.response?.data?.detail || "Signup failed.");
 
-        // Extract all error messages and join them into a single string
-        const errorMessages = Object.values(errorData)
-          .flat() // Flatten arrays to handle multiple errors
-          .join(" "); // Join messages with a space
-
-        setResponseMessage(errorMessages);
-      } else {
-        setResponseMessage("Signup failed. Please try again.");
-      }
     }
   };
 
-  //Handle OTP verification
-  const handleVerifyOtp = async (e) => {
-    try {
-      const response = await axios.post(
-        "https://coocoo-app.onrender.com/auth/resend-otp/",
-        {
-          email: formData.email,
-          otp,
-        }
-      );
-      setResponseMessage("response.data.message");
-      setIsVerified(true);
-    } catch (error) {
-      console.error("Full error response:", error.response);
-
-      setResponseMessage("Verification failed: " + error.response.body);
-    }
-  };
 
   //navigate to login page
   const loginNav = () => {
-    navigate("admin/login");
+    navigate("/admin/login");
   };
 
   return (
@@ -187,13 +165,7 @@ const AdminSignup = () => {
 
         {/* Response Message */}
         {responseMessage && (
-          <div
-            className={`response-message ${
-              responseMessage.includes("failed") ? "error" : "success"
-            }`}
-          >
-            {responseMessage}
-          </div>
+          <div className='error-message'>{responseMessage}</div>
         )}
       </form>
       <div className="signup-footer">

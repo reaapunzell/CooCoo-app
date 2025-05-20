@@ -12,6 +12,7 @@ import {
 import React from "react";
 import "./Dashboard.css";
 import logo from "/public/CooCoo Main logo.svg";
+import ProductUpload from "../components/Group Buying/ProductUploading";
 
 const mockStats = {
   total_users: 1350,
@@ -80,6 +81,7 @@ const AdminDashboard = () => {
           </BarChart>
         </div>
       </div>
+      <ProductUpload />
     </div>
   );
 };

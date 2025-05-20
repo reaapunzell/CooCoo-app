@@ -71,20 +71,11 @@ const Signup = () => {
         confirmPassword: "",
       });
     } catch (error) {
-      console.error("Full error response:", error.response);
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data;
-
-        // Extract all error messages and join them into a single string
-        const errorMessages = Object.values(errorData)
-          .flat() // Flatten arrays to handle multiple errors
-          .join(" "); // Join messages with a space
-
-        setResponseMessage(errorMessages);
-      } else {
-        setResponseMessage("Signup failed. Please try again.");
-      }
+        setResponseMessage(error.message);
+      
+      
+    
     }
   };
 

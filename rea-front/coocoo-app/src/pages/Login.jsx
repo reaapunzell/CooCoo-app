@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../styles/SignUp.css";
 import { useNavigate } from "react-router-dom";
-import LoadingAnimation from "../components/LoadingAnimation";
+
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,9 +13,20 @@ const Login = () => {
   const [showResendOTP, setShowResendOTP] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+
+  const handleGuestLogin = () => {
+    const guestToken = "guest-token";
+    const guestProfile = {
+      name: "Guest",
+      email:'guest@demo.com',
+    };
+
+    localStorage.setItem("token", guestToken);
+    localStorage.setItem("user", JSON.stringify(guestProfile));
+    localStorage.setItem("isGuest", "true");
+
+    navigate("/groupbuying");
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,9 +48,7 @@ const Login = () => {
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed");
-      }
+
 
       localStorage.setItem("token", data.token);
       navigate(`/groupbuying`);
@@ -92,10 +101,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      {loading ? (
-        <LoadingAnimation />
-      ) : (
-        <>
+      
           <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
           <h1>Login</h1>
           <form onSubmit={handleLogin}>
@@ -142,14 +148,15 @@ const Login = () => {
             </button>
           </form>
 
+          <button lassName="signup-btn" type="button" onClick={handleGuestLogin} >Continue as Guest </button>
+
           <div className="signup-footer">
             <span> Don't have an account? </span>
             <button className="signup-btn" type="button" onClick={signUpNav}>
               Sign Up
             </button>
           </div>
-        </>
-      )}
+        
     </div>
   );
 };

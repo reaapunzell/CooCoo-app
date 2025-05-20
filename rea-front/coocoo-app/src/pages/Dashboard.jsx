@@ -16,13 +16,13 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
+    const userGroupData = async () => {
       try {
         const token = localStorage.getItem("token");
         const headers = { Authorization: `Bearer ${token}` };
 
         const response = await fetch(
-          `http://localhost:8000/dashboard/${username}`,
+          `https://coocoo-app.onrender.com/api/groups/${id}`,
           {
             method: "GET",
             headers,
