@@ -12,15 +12,52 @@ const ExistingGroups = () => {
   const token = localStorage.getItem("token"); // Retrieve token
 
   useEffect(() => {
-    if (!token) {
+    const isGuest = localStorage.getItem("isGuest") === "true";
+
+    if (!token && !isGuest) {
       setError("User not authenticated. Please log in.");
+      return;
+    }
+
+    if (isGuest) {
+      // Guest demo groups
+      const guestGroups = [
+        {
+          id: 1,
+          name: "Starter Poultry Group",
+          created_by: { username: "guest_leader1" },
+          expires_in_days: 5,
+          brand: "Coocoo Feed Lite",
+          price_per_user: 120,
+          city: { name: "Cape Town", province: "Western Cape" },
+        },
+        {
+          id: 2,
+          name: "Egg Boosters Club",
+          created_by: { username: "guest_leader2" },
+          expires_in_days: 3,
+          brand: "Golden Eggs Feed",
+          price_per_user: 150,
+          city: { name: "Durban", province: "KwaZulu-Natal" },
+        },
+        {
+          id: 3,
+          name: "Broiler Bundle Team",
+          created_by: { username: "guest_leader3" },
+          expires_in_days: 7,
+          brand: "SuperGrow Feed",
+          price_per_user: 100,
+          city: { name: "Pretoria", province: "Gauteng" },
+        },
+      ];
+      setGroups(guestGroups);
       return;
     }
 
     fetch("https://coocoo-app.onrender.com/api/groups/", {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`, // Corrected Authorization header
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
@@ -47,6 +84,11 @@ const ExistingGroups = () => {
   const JoinGroup = async (e) => {
     e.preventDefault();
 
+    if (isGuest) {
+      alert("Demo: You’ve joined the group successfully!");
+      return;
+    }
+
     if (!selectedGroupId) {
       setError("Please select a group before joining.");
       return;
@@ -58,7 +100,7 @@ const ExistingGroups = () => {
         {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -78,8 +120,6 @@ const ExistingGroups = () => {
       console.error("Join group error:", error);
       setError(error.message);
     }
-
-
   };
 
   return (
@@ -89,7 +129,6 @@ const ExistingGroups = () => {
         <div className="header">
           <span>Select your Group Order Option</span>
         </div>
-
         {/* Dynamically Load User Address if Available */}
         {groups.length > 0 && groups[0].city ? (
           <div className="user-address-container">
@@ -104,9 +143,8 @@ const ExistingGroups = () => {
         ) : (
           <p>Loading address...</p>
         )}
-
-        {error && <p className="error-message">{error}</p>} {/* Show error message */}
-
+        {error && <p className="error-message">{error}</p>}{" "}
+        {/* Show error message */}
         <div id="groups-wrapper">
           {groups.length === 0 ? (
             <p>No group orders available.</p>
@@ -125,7 +163,6 @@ const ExistingGroups = () => {
             ))
           )}
         </div>
-
         <button className="joingroup-btn" type="button" onClick={JoinGroup}>
           Join Group
         </button>
