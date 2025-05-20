@@ -14,12 +14,12 @@ const GroupDetails = () => {
 
   // Determine if guest has contributed
   const guestGroup = JSON.parse(localStorage.getItem("guestGroup"));
-  const guestContributed = guestGroup && localStorage.getItem(`contributed-${guestGroup.id}`) === "true";
+  const guestContributed = guestGroup && localStorage.getItem(`contributed-${guestGroup.id}`);
 
   useEffect(() => {
     const fetchGroupDetails = async () => {
       if (isGuest) {
-        if (guestGroup && guestGroup.id === id) {
+        if (guestGroup  ) {
           setGroup(guestGroup);
         } else {
           setError("Guest group not found.");
