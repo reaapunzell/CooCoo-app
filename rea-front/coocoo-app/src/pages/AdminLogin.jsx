@@ -23,6 +23,7 @@ const AdminLogin = () => {
     });
 
     try {
+
       const response = await fetch("https://coocoo-app.onrender.com/auth/admin-login/", {
         method: "POST",
         headers: {
@@ -30,6 +31,7 @@ const AdminLogin = () => {
         },
         body: JSON.stringify({ email : formData.email, password: formData.password }),
       });
+
 
       if (!response.ok) {
         throw new Error("Invalid credentials or unauthorized access");
@@ -68,6 +70,7 @@ const AdminLogin = () => {
   };
 
   return (
+
 
       <div className="login-container">
             <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
@@ -125,6 +128,7 @@ const AdminLogin = () => {
           
         
       </div>
+
   );
 };
 
