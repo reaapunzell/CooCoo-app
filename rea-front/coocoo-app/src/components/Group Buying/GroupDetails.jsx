@@ -14,8 +14,7 @@ const GroupDetails = () => {
 
   // Determine if guest has contributed
   const guestGroup = JSON.parse(localStorage.getItem("guestGroup"));
-  const guestContributed = guestGroup && localStorage.getItem(`contributed-${guestGroup.id}`) === "true";
- console.log("Guest group:", guestGroup, "Route ID:", id);
+  const guestContributed = guestGroup && localStorage.getItem(`contributed-${guestGroup.id}`);
 
   useEffect(() => {
     const fetchGroupDetails = async () => {
