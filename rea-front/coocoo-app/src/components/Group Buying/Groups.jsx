@@ -1,4 +1,3 @@
-// Groups.js
 import React from "react";
 import "./Onboarding.css";
 
