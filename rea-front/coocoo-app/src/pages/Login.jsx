@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/SignUp.css";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = () => {
-  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,12 +11,11 @@ const Login = () => {
   const [showResendOTP, setShowResendOTP] = useState(false);
   const navigate = useNavigate();
 
-
   const handleGuestLogin = () => {
     const guestToken = "guest-token";
     const guestProfile = {
       name: "Guest",
-      email:'guest@demo.com',
+      email: "guest@demo.com",
     };
 
     localStorage.setItem("token", guestToken);
@@ -26,7 +23,7 @@ const Login = () => {
     localStorage.setItem("isGuest", "true");
 
     navigate("/groupbuying");
-  }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -47,8 +44,6 @@ const Login = () => {
       );
 
       const data = await response.json();
-
-
 
       localStorage.setItem("token", data.token);
       navigate(`/groupbuying`);
@@ -101,62 +96,64 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
+      <h1>Login</h1>
+      <form onSubmit={handleLogin}>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+        {showResendOTP && (
+          <button
+            className="resend-otp-btn"
+            type="button"
+            onClick={handleResendOTP}
+          >
+            Resend OTP Verification
+          </button>
+        )}
+
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+
+        <div className="forgot-password">
+          <a href="/forgot-password">Forgot your Password?</a>
+        </div>
+
+        <button className="login-btn" type="submit">
+          Login
+        </button>
+      </form>
+
       
-          <img src="/CooCoo Main logo.svg" alt="CooCoo Logo" />
-          <h1>Login</h1>
-          <form onSubmit={handleLogin}>
-            {errorMessage && (
-              <div className="error-message">{errorMessage}</div>
-            )}
-
-            {showResendOTP && (
-              <button
-                className="resend-otp-btn"
-                type="button"
-                onClick={handleResendOTP}
-              >
-                Resend OTP Verification
-              </button>
-            )}
-
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-
-            <div className="forgot-password">
-              <a href="/forgot-password">Forgot your Password?</a>
-            </div>
-
-            <button className="login-btn" type="submit">
-              Login
-            </button>
-          </form>
-
-          <button lassName="signup-btn" type="button" onClick={handleGuestLogin} >Continue as Guest </button>
-
-          <div className="signup-footer">
-            <span> Don't have an account? </span>
-            <button className="signup-btn" type="button" onClick={signUpNav}>
-              Sign Up
-            </button>
-          </div>
         
+      
+      <div className="signup-footer">
+        <span> Don't have an account? </span>
+        <div className="guest-signup-btns">
+        <button className="guest-btn" type="button" onClick={handleGuestLogin}>
+          Continue as Guest{" "}
+        </button>
+        <button className="signup-btn" type="button" onClick={signUpNav}>
+          Sign Up
+        </button>
+      </div>
+      </div>
     </div>
   );
 };

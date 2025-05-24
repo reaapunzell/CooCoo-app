@@ -51,10 +51,16 @@ button {
   font-size: 16px;
 }
 
-.signup-btn {
+button:hover{
+  background-color: darkgreen;
+  color:white;
+}
+
+.signup-btn, .login-btn {
   background-color: white;
   color: gray;
 }
+
 
 .response-message {
   margin-top: 1rem;
@@ -122,5 +128,38 @@ button {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+
+  .signup-container,
+  .login-container {
+    width: 90%;
+    margin-bottom: 1rem;
+
+  }
+
+  img {
+    height: 150px;
+  }
+
+  h1{
+    font-size: 30px;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  button {
+    font-size: 14px;
+  }
+
+
+
+  .signup-footer{
+    margin-top: 1rem;
+  }
+
+  .guest-btn, .signup-btn {
+    margin: 0.5rem;
   }
 }

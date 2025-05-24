@@ -62,3 +62,49 @@
 .logout-btn:hover {
   background-color: #dcf5ca;
 }
+
+.hamburger {
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: none;
+  z-index: 1001;
+}
+
+.desktop-logout {
+  display: block;
+}
+
+.mobile-logout {
+  display: none;
+}
+
+
+@media (max-widt6h: 768px){
+  .hamburger {
+    display: block;
+  }
+    .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 1rem;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    z-index: 1000;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .desktop-logout {
+    display: none;
+  }
+
+  .mobile-logout {
+    display: block;
+    margin-top: 1rem;
+  }
+}
