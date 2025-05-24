@@ -8,7 +8,6 @@ const Payment = () => {
   const isGuest = localStorage.getItem("isGuest") ;
   const guestGroup = JSON.parse(localStorage.getItem("guestGroup"));
 
-  
   if (!guestGroup || !guestGroup.product) {
     return <p className="loading">No group/product found.</p>;
   }
@@ -47,7 +46,6 @@ const Payment = () => {
   const shippingCost = 100;
   const total = product.price_per_user + shippingCost;
 
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));

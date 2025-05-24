@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
 import "./Settings.css";
 
 const AccountForm = () => {
@@ -12,19 +11,31 @@ const AccountForm = () => {
     isActive: false,
     isStaff: false,
   });
-  const [isEditing, setIsEditing] = useState(false);
+
+  const isGuest = localStorage.getItem("isGuest") === "true";
   const token = localStorage.getItem("token");
-  const { id } = useParams();
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    console.log("Token:", localStorage.getItem("token"));
+    if (isGuest) {
+      setUserData({
+        id: "guest",
+        email: "guest@demo.com",
+        firstName: "Guest",
+        lastName: "Coocoo",
+        emailVerified: true,
+        isActive: true,
+        isStaff: false,
+      });
+      return;
+    }
 
     if (!token) return;
 
     const fetchUserData = async () => {
       try {
         const response = await fetch(
-          `https://coocoo-app.onrender.com/auth/profile/`,
+          "https://coocoo-app.onrender.com/auth/profile/",
           {
             method: "GET",
             headers: {
@@ -54,7 +65,7 @@ const AccountForm = () => {
     };
 
     fetchUserData();
-  }, [token]);
+  }, [isGuest, token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,7 +75,7 @@ const AccountForm = () => {
   const handleUpdate = async () => {
     try {
       const response = await fetch(
-        `https://coocoo-app.onrender.com/auth/profile/`,
+        "https://coocoo-app.onrender.com/auth/profile/",
         {
           method: "PATCH",
           headers: {
@@ -81,6 +92,7 @@ const AccountForm = () => {
       if (!response.ok) {
         throw new Error("Failed to update user data");
       }
+
       alert("Account information updated successfully!");
       setIsEditing(false);
     } catch (error) {
