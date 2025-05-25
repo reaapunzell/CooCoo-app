@@ -7,8 +7,8 @@ function SettingsNav() {
     <div className="settings-navbar">
       <Nav>
         <Nav.Link href="/settings">Account</Nav.Link>
-        <Nav.Link href="/settings/changepassword">Change Password</Nav.Link>
-        <Nav.Link href="/settings/deleteaccount">Delete Account</Nav.Link>
+        <Nav.Link href="/settings/changepassword">Password</Nav.Link>
+        <Nav.Link href="/settings/deleteaccount">Delete</Nav.Link>
       </Nav>
     </div>
   );

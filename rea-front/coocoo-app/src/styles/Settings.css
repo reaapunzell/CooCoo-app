@@ -53,11 +53,15 @@
   background-color: #7ca55a;
 }
 
-/* 📌 Responsive Design for smaller screens */
+.mobile-form-row{
+  display:flex;
+  flex-direction: row;
+}
+
 @media screen and (max-width: 1024px) {
   .settings-container {
     width: 100%;
-    margin-left: 0; /* Remove sidebar offset */
+    margin-left: 0; 
     padding: 15px;
   }
 
@@ -69,3 +73,35 @@
     max-width: 90%;
   }
 }
+
+@media screen and (max-width: 768px) {
+
+  .app-container {
+    width: 100%;
+    margin-left: 0;
+    padding: 10px;
+  }
+  .settings-container {
+    width:90%;
+    padding: 10px;
+  }
+
+  .settings-container h1 {
+    font-size: 18px;
+  }
+
+  .settings-container form {
+    width: 90%;
+    max-width: none;
+    display:flex;
+    flex-direction: column;
+  }
+
+  .mobile-form-row{
+    display:flex;
+    flex-direction: column;
+  }
+ 
+}
+
+

@@ -412,5 +412,30 @@ form h4 {
 }
 
 @media (max-width: 768px) {
+
+  .app-container {
+    width: 100%;
+    margin-left: 0;
+    padding: 10px;
+  }
+  .onboarding-container, .create-group-container{
+    width: 90%;
+  }
+
+  .products-selection{
+    margin-bottom: 1rem;
+  }
+  .buttons-container{
+    display:flex;
+    flex-direction: column;
+  }
+
+  button {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
   
+  .contributed-message{
+    display: none;
+  }
 }

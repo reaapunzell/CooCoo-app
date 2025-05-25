@@ -67,3 +67,26 @@
  .settings-navbar .nav-link:hover {
   color: var(--primary-color);
  }
+
+
+ @media screen and (max-width: 768px) {
+    .form-container {
+      flex-direction: column;
+    }
+    
+    .form-row {
+      margin-bottom: 10px;
+    }
+    
+    .input-box {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+     .settings-navbar .nav-link {
+      font-size: 0.8rem;
+      padding: 15px;
+  }
+
+  
+  }

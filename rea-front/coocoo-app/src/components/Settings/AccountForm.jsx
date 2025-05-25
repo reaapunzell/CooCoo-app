@@ -119,6 +119,7 @@ const AccountForm = () => {
         </div>
 
         <div className="form-row">
+          <div className="mobile-form-row"> 
           <div className="input-box">
             <label>First Name</label>
             <input
@@ -143,6 +144,7 @@ const AccountForm = () => {
               minLength={1}
               maxLength={30}
             />
+          </div>
           </div>
         </div>
       </form>
