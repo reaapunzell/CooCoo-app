@@ -1,4 +1,10 @@
 /* Main container for the navigation bar */
+:root{
+  --primary-color: #90be6d;
+  --secondary-color: #dcf5ca;
+  --text-color: black;
+  --background-color: white;
+}
 .navigation-bar {
   position: fixed;
   display: flex;
@@ -63,48 +69,94 @@
   background-color: #dcf5ca;
 }
 
-.hamburger {
-  font-size: 1.8rem;
+.mobile-nav{
+  display:none;
+}
+
+.menu-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: none;
+  border: none;
+  width: 5rem;
+  font-size: 2rem;
   cursor: pointer;
-  display: none;
-  z-index: 1001;
+  z-index: 1000;
+  color: var(--primary-color);
 }
 
-.desktop-logout {
+.menu-toggle:hover{
+  color: var(--secondary-color);
+  border: none;
+}
+
+.menu-toggle:active{
+  border:none;
+}
+
+.mobile-nav-links {
+    position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 2rem;
+  width: 200px;
+  height: 100vh;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  left: 0px;
+  top: 0px;
+  z-index: 999;
+}
+
+.mobile-nav-links.open {
+  transform: translateX(0);
+}
+
+.mobile-nav-links.open {
+  max-height: 300px; 
+  padding: 1rem;
+}
+
+.mobile-nav-links .nav-link {
   display: block;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-family: Arimo, sans-serif;
+  transition: color 0.3s ease;
 }
 
-.mobile-logout {
-  display: none;
+.mobile-nav-links .nav-link:hover {
+  color: #90be6d;
+}
+
+.mobile-nav-links img{
+   width: 50%;
+  hight: 6rem;
+  display: block;
+  margin-bottom: 20px;
+
+  flex-shrink: 0;
 }
 
 
-@media (max-widt6h: 768px){
-  .hamburger {
+
+@media (max-width: 768px){
+    .mobile-nav {
     display: block;
-  }
-    .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 70px;
-    right: 1rem;
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    z-index: 1000;
+   
   }
 
-  .nav-links.open {
-    display: flex;
+  .navigation-bar {
+    display:none;
   }
 
-  .desktop-logout {
-    display: none;
-  }
 
-  .mobile-logout {
-    display: block;
-    margin-top: 1rem;
-  }
+
+
 }

@@ -1,60 +1,43 @@
-import { useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import "./Navigation.css";
 import LogoutButton from "./Settings/Logout";
 import logo from "/public/CooCoo Main logo.svg";
-import { useLocation } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa"; // for hamburger icon
+import { Link} from "react-router-dom";
+import MobileNavigation from "./MobileNavigation";
 
 function Navigation() {
-  const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
+  
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
-
-  return (
+  return ( <>
+    <div className="mobile-nav">
+<MobileNavigation />
+    </div>
     <div className="navigation-bar">
-      <img src={logo} alt="coocoo logo" className="logo" />
-      <div className="hamburger" onClick={toggleMenu}>
-        {isOpen ? <FaTimes /> : <FaBars />}
-      </div>
-
-      <Nav className={`nav-links ${isOpen ? "open" : ""}`}>
-        <Nav.Link
+    
+      <img src={logo} alt="coocoo logo" />
+      <Nav className="nav-links">
+        <Link
           href="/groupbuying"
           className={
             location.pathname === "/groupbuying"
               ? "nav-link active"
               : "nav-link"
           }
-          onClick={closeMenu}
         >
           Group Buying
-        </Nav.Link>
-        <Nav.Link
+        </Link>
+        <Link
           href="/settings/"
           className={
             location.pathname === "/settings/" ? "nav-link active" : "nav-link"
           }
-          onClick={closeMenu}
         >
           Settings
-        </Nav.Link>
-        <div className="mobile-logout">
-          <LogoutButton />
-        </div>
+        </Link>
       </Nav>
-
-      <div className="desktop-logout">
-        <LogoutButton />
-      </div>
+      <LogoutButton />
     </div>
+    </>
   );
 }
 
