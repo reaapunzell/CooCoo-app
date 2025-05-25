@@ -4,9 +4,10 @@ import LogoutButton from "./Settings/Logout";
 import logo from "/public/CooCoo Main logo.svg";
 import { Link} from "react-router-dom";
 import MobileNavigation from "./MobileNavigation";
+import { useLocation } from "react-router-dom";
 
 function Navigation() {
-  
+  const location = useLocation();
 
   return ( <>
     <div className="mobile-nav">
@@ -17,7 +18,7 @@ function Navigation() {
       <img src={logo} alt="coocoo logo" />
       <Nav className="nav-links">
         <Link
-          href="/groupbuying"
+          to="/groupbuying"
           className={
             location.pathname === "/groupbuying"
               ? "nav-link active"
@@ -27,9 +28,9 @@ function Navigation() {
           Group Buying
         </Link>
         <Link
-          href="/settings/"
+          to="/settings"
           className={
-            location.pathname === "/settings/" ? "nav-link active" : "nav-link"
+            location.pathname === "/settings" ? "nav-link active" : "nav-link"
           }
         >
           Settings
