@@ -124,6 +124,28 @@ p {
   margin-bottom: 40px;
 }
 
+.join-btns {
+  display: flex;
+}
+
+.survey-button {
+  display: inline-block;
+  margin: 1rem;
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.survey-button:hover {
+  background-color: #45a049;
+}
+
 .getintouch-form {
   margin-top: 20px;
 }
