@@ -55,11 +55,6 @@ const ExistingGroups = () => {
   const JoinGroup = async (e) => {
     e.preventDefault();
 
-    if (isGuest) {
-      alert("Demo: You’ve joined the group successfully!");
-      return;
-    }
-
     if (!selectedGroupId) {
       setError("Please select a group before joining.");
       return;
@@ -69,7 +64,7 @@ const ExistingGroups = () => {
      const selectedGroup = groups.find((g) => g.id === selectedGroupId);
 
    if (isGuest) {
- 
+    alert("Demo: You’ve joined the group successfully!");
   localStorage.setItem('guestGroup', JSON.stringify(selectedGroup));
   navigate(`/group/${selectedGroup.id}`);
   return;

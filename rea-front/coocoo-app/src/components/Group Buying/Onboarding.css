@@ -411,6 +411,29 @@ form h4 {
   font-size: 1.2rem;
 }
 
+.existing-groups-container{
+  width: 90%;
+  
+}
+
+.groups-selection{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.group-name{
+  font-size: 1rem;
+}
+.group-information{
+  font-size: 0.7rem;
+  display:flex;
+  flex-direction:column
+}
+
+
+
 @media (max-width: 768px) {
 
   .app-container {
