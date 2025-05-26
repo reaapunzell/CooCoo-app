@@ -319,10 +319,14 @@ input[type="email"] {
   height: 50vh;
 }
 
-@media screen and (max-width: 500px) {
+.whatsapp-group-btn-mobile{
+  display:none;
+}
+@media screen and (max-width: 768px) {
   body {
     background-color: white;
-    font-size: 12px; /* Adjusted font size */
+    font-size: 12px;
+    width: 90%;
   }
 
   header {
@@ -332,32 +336,32 @@ input[type="email"] {
 
   .navigation-bar {
     flex-direction: column;
-    font-size: 14px; /* Adjusted font size */
+    font-size: 14px;
   }
 
   .navigation-bar img {
-    height: 40px; /* Adjusted height */
+    height: 40px;
   }
 
   h1 {
-    font-size: 24px; /* Adjusted font size */
+    font-size: 24px;
   }
 
   h2 {
-    font-size: 20px; /* Adjusted font size */
+    font-size: 20px;
   }
 
   h3 {
-    font-size: 18px; /* Adjusted font size */
+    font-size: 18px;
   }
 
   p {
-    font-size: 14px; /* Adjusted font size */
+    font-size: 14px;
   }
 
   button {
-    font-size: 14px; /* Adjusted font size */
-    padding: 10px; /* Adjusted padding */
+    font-size: 14px;
+    padding: 10px;
   }
 
   .hero-section {
@@ -368,18 +372,62 @@ input[type="email"] {
   }
 
   .hero-text {
-    font-size: 1/2rem;
-    width: 20rem;
+    font-size: 0.5rem; /* Fixed from 1/2rem */
+    width: 80%;
   }
-  .welcome-section img {
-    height: 1vh;
-    width: 1vh;
+
+  .welcome-section-2-text{
+    margin-left: 1rem;
+  }
+  .welcome-section-2-img {
+    height: 40vh;
+    width: 40vh;
+  }
+
+  .welcome-section-logo {
+    width: 100%;
   }
 
   .welcome-section-2 {
     flex-direction: column;
-    padding: 10px; /* Adjusted padding */
+    padding: 10px;
   }
+
+  .join-btns {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 15rem;
+    align-items: center;
+  }
+
+  .whatsapp-group-btn {
+   display:none;
+  }
+
+  a{
+    text-decoration: none;
+    color:white;
+  }
+  .whatsapp-group-btn-mobile {
+     display: inline-block;
+  margin: 1rem;
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease
+    
+  }
+
+   .whatsapp-group-btn-mobile:hover{
+    background-color: #45a049;
+   }
+ 
 
   .getintouch-form {
     flex-direction: column;
@@ -389,7 +437,7 @@ input[type="email"] {
   .getintouch-text {
     flex-direction: column;
     justify-content: center;
-    margin: 0px;
+    margin: 0;
   }
 
   .getintouch-text img {
@@ -413,10 +461,13 @@ input[type="email"] {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0px;
+    margin: 0;
     font-size: 1rem;
   }
+ 
+
 }
+
 
 @media screen and (max-width: 1024px) {
   body {
