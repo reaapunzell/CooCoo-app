@@ -19,9 +19,9 @@ const Settings = () => {
         <div className="settings-content">
           <Routes>
             <Route path="/" element={<AccountForm />} />
-            <Route path="changepassword" element={<ChangePassword />} />
-            <Route path="personalisation" element={<Personalization />} />
-            <Route path="deleteaccount" element={<DeleteAccountButton />} />
+            <Route path="/changepassword" element={<ChangePassword />} />
+            <Route path="/personalisation" element={<Personalization />} />
+            <Route path="/deleteaccount" element={<DeleteAccountButton />} />
             <Route path="*" element={<h2>Page Not Found</h2>} />
           </Routes>
         </div>
